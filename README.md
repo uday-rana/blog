@@ -1,4 +1,3 @@
-# web322-app
+# Blog Webapp
 
-## Known bugs
-- Login history being stored on cookie means too many logins result in cookie size too large which gets ignored
+This website allows users to register and log-in in order to create posts or post categories. Users can also upload images to accompany their post. User log-in information is hashed to ensure secure data storage. This website was made using Node.js, Express.js, PostgreSQL, MongoDB, Handlebars, and Bootstrap.
