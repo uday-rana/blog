@@ -1,0 +1,14 @@
+{{#if errorMessage}}
+<div class="alert alert-danger"> <strong>Error:</strong> {{errorMessage}}</div>
+{{/if}}
+
+<h2>Log In</h2>
+<form action="/login" method="post">
+		<div class="mb-3">
+			<label for="userName" class="form-label">Username</label>
+			<input type="text" name="userName" id="userName" placeholder="Username" class="form-control mb-3" {{#if userName}}value="{{userName}}"{{/if}} required/>
+			<label for="password" class="form-label">Password</label>
+			<input type="password" name="password" id="password" placeholder="Password" class="form-control" required>
+		</div>
+	<button type="submit" class="btn btn-success float-end">Log In</button>
+</form>

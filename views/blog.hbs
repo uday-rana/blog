@@ -1,0 +1,43 @@
+<div class="row">
+	<section class="col-md-9 card p-0">
+		{{#if data.post}}
+		{{#if data.post.dataValues.featureImage}}
+		<img src="{{data.post.dataValues.featureImage}}" alt="Featured image" class="img-fluid d-block mx-auto my-3" />
+		{{/if}}
+		<div class="card-body">
+			<h1 class="card-title">{{#safeHTML data.post.dataValues.title}}{{/safeHTML}}</h1>
+			<p class="card-text">{{#safeHTML data.post.dataValues.body}}{{/safeHTML}}</p>
+		</div>
+		<div class="card-footer text-body-secondary">
+			<ul class="list-group list-group-flush">
+				<li class="list-group-item">Category: <a href="/blog?category={{data.post.dataValues.category.id}}" class="card-link">{{data.post.dataValues.category.category}}</a></li>
+				<li class="list-group-item">Last Updated: {{#formatDate data.post.dataValues.postDate}}{{/formatDate}}</li>
+			</ul>				
+		</div>
+		{{else}}
+		<div class="card-body">
+			<h2 class="card-title">{{data.message}}</h2>
+			<p class="card-text">No posts found</p>
+		</div>
+		{{/if}}
+	</section>
+	<aside class="col-md-3">
+		{{#if data.posts}}
+		<h4>Posts</h4>
+		<ul class="list-group mb-3">
+			{{#each data.posts}}
+			<a href="/blog/{{dataValues.id}}?category={{../viewingCategory}}"
+				class="list-group-item">{{dataValues.title}}</a>
+			{{/each}}
+		</ul>
+		{{/if}}
+		{{#if data.categories}}
+		<h4>Categories</h4>
+		<ul class="list-group">
+			{{#each data.categories}}
+			<a href="/blog?category={{dataValues.id}}" class="list-group-item">{{dataValues.category}}</a>
+			{{/each}}
+		</ul>
+		{{/if}}
+	</aside>
+</div>

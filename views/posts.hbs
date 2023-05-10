@@ -1,0 +1,36 @@
+<div class="row">
+	<div class="col-md card">
+		<div class="card-body">
+			<h1 class="card-title">Posts<a href="/posts/add" class="btn btn-success float-end">Add Post</a></h1>
+			<div class="table-responsive">
+				<table class="table">
+					<thead>
+						<th scope="col">Post ID</th>
+						<th scope="col">Title</th>
+						<th scope="col">Post Date</th>
+						<th scope="col">Category</th>
+						<th scope="col">Published</th>
+						<th></th>
+					</thead>
+					<tbody>
+						{{#each data}}
+							<tr>
+								<td>{{dataValues.id}}</td>
+								<td><a href="/blog/{{dataValues.id}}" class="text-decoration-none">{{dataValues.title}}</a></td>
+								<td>{{#formatDate dataValues.postDate}}{{/formatDate}}</td>
+								<td><a href="/posts?category={{dataValues.category}}" class="text-decoration-none">{{dataValues.category}}</a></td>
+								<td>{{dataValues.published}}</td>
+								<td><a href="/posts/delete/{{dataValues.id}}" class="btn btn-danger float-end">Remove</a></td>
+							</tr>
+						{{/each}}
+					</tbody>
+				</table>
+			</div>
+			{{#unless data}}
+				<div class="col-md text-center">
+					{{message}}
+				</div>
+			{{/unless}}
+		</div>
+	</div>
+</div>
