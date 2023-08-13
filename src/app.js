@@ -335,9 +335,9 @@ app.get(`/logout`, (req, res) => {
   res.redirect(`/`);
 });
 
-app.get(`/userHistory`, ensureLogin, async (req, res) => {
+app.get(`/loginHistory`, ensureLogin, async (req, res) => {
   const user = await authService.getUser(req.session.user);
-  res.render(`userHistory`, { user: user });
+  res.render(`loginHistory`, { user: user });
 });
 
 app.use((req, res) => res.status(404).render(`404`));
