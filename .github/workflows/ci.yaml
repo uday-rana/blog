@@ -2,7 +2,7 @@ name: CI
 on: [push]
 jobs:
   lint:
-    name: Lint
+    name: Lint and Format
     runs-on: ubuntu-latest
 
     steps:
@@ -14,3 +14,6 @@ jobs:
 
     - name: Run ESLint
       run: npm run lint
+
+    - name: Run Prettier
+      uses: creyD/prettier_action@v4.3
