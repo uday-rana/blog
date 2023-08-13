@@ -318,8 +318,7 @@ app.post(`/login`, async (req, res) => {
     const user = await authService.checkUser(req.body);
     req.session.user = {
       userName: user.userName,
-      email: user.email,
-      loginHistory: user.loginHistory,
+      email: user.email
     };
 
     res.redirect(`/posts`);
@@ -333,8 +332,9 @@ app.get(`/logout`, (req, res) => {
   res.redirect(`/`);
 });
 
-app.get(`/userHistory`, ensureLogin, (req, res) => {
-  res.render(`userHistory`);
+app.get(`/userHistory`, ensureLogin, async (req, res) => {
+  const user = await authService.getUser(req.session.user);
+  res.render(`userHistory`, {user: user});
 });
 
 app.use((req, res) => res.status(404).render(`404`));
