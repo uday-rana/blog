@@ -41,9 +41,12 @@ app.engine(
         }
       },
       safeHTML: (context) => {
-        if ((context===null) || (context==='')) {return null;}
-        else {context = context.toString();}
-        return context.replace( /(<([^>]+)>)/ig, '');
+        if (context === null || context === "") {
+          return null;
+        } else {
+          context = context.toString();
+        }
+        return context.replace(/(<([^>]+)>)/gi, "");
       },
       formatDate: (dateObj) => {
         const year = dateObj.getFullYear();
@@ -318,7 +321,7 @@ app.post(`/login`, async (req, res) => {
     const user = await authService.checkUser(req.body);
     req.session.user = {
       userName: user.userName,
-      email: user.email
+      email: user.email,
     };
 
     res.redirect(`/posts`);
@@ -334,7 +337,7 @@ app.get(`/logout`, (req, res) => {
 
 app.get(`/userHistory`, ensureLogin, async (req, res) => {
   const user = await authService.getUser(req.session.user);
-  res.render(`userHistory`, {user: user});
+  res.render(`userHistory`, { user: user });
 });
 
 app.use((req, res) => res.status(404).render(`404`));

@@ -46,33 +46,33 @@ const authService = {
     }
   },
   checkUser: async (userData) => {
-      const user = await User.findOne({ userName: userData.userName });
-      if (!user) {
-        throw new Error(`Unable to find user ${userData.userName}`);
-      }
-      const passwordsMatch = await bcrypt.compare(
-        userData.password,
-        user.password,
-      );
-      if (!passwordsMatch) {
-        throw new Error(`Incorrect password for user: ${userData.userName}`);
-      }
-      user.loginHistory.push({
-        dateTime: new Date().toString(),
-        userAgent: userData.userAgent,
-      });
-      await User.updateOne(
-        { userName: user.userName },
-        { $set: { loginHistory: user.loginHistory } },
-      );
-      return user;
+    const user = await User.findOne({ userName: userData.userName });
+    if (!user) {
+      throw new Error(`Unable to find user ${userData.userName}`);
+    }
+    const passwordsMatch = await bcrypt.compare(
+      userData.password,
+      user.password,
+    );
+    if (!passwordsMatch) {
+      throw new Error(`Incorrect password for user: ${userData.userName}`);
+    }
+    user.loginHistory.push({
+      dateTime: new Date().toString(),
+      userAgent: userData.userAgent,
+    });
+    await User.updateOne(
+      { userName: user.userName },
+      { $set: { loginHistory: user.loginHistory } },
+    );
+    return user;
   },
   getUser: async (userData) => {
-      const user = await User.findOne({ userName: userData.userName }).lean();
-      if (!user) {
-        throw new Error(`Unable to find user ${userData.userName}`);
-      }
-      return user;
+    const user = await User.findOne({ userName: userData.userName }).lean();
+    if (!user) {
+      throw new Error(`Unable to find user ${userData.userName}`);
+    }
+    return user;
   },
 };
 
