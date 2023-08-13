@@ -5,7 +5,6 @@ import client_sessions from "client-sessions";
 import { v2 as cloudinary } from "cloudinary";
 import multer from "multer";
 import streamifier from "streamifier";
-import stripJs from "strip-js";
 import blogService from "./blog-service.js";
 import authService from "./auth-service.js";
 
@@ -42,7 +41,9 @@ app.engine(
         }
       },
       safeHTML: (context) => {
-        return stripJs(context);
+        if ((context===null) || (context==='')) {return null;}
+        else {context = context.toString();}
+        return context.replace( /(<([^>]+)>)/ig, '');
       },
       formatDate: (dateObj) => {
         const year = dateObj.getFullYear();
