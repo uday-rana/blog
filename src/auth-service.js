@@ -1,9 +1,7 @@
 import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 
-const Schema = mongoose.Schema;
-
-const userSchema = new Schema(
+const userSchema = new mongoose.Schema(
   {
     userName: {
       type: String,
@@ -26,8 +24,8 @@ let User;
 const authService = {
   initialize: async () => {
     try {
-      const db = await mongoose.createConnection(process.env.MONGODB_LINK);
-      User = db.model("users", userSchema);
+      await mongoose.connect(process.env.MONGODB_LINK);
+      User = mongoose.model("users", userSchema);
     } catch (error) {
       console.error(error);
     }
@@ -48,31 +46,33 @@ const authService = {
     }
   },
   checkUser: async (userData) => {
-    try {
-      console.log(userData);
-      const users = await User.find({ userName: userData.userName });
-      if (!users.length) {
+      const user = await User.findOne({ userName: userData.userName });
+      if (!user) {
         throw new Error(`Unable to find user ${userData.userName}`);
       }
       const passwordsMatch = await bcrypt.compare(
         userData.password,
-        users[0].password,
+        user.password,
       );
       if (!passwordsMatch) {
         throw new Error(`Incorrect password for user: ${userData.userName}`);
       }
-      users[0].loginHistory.push({
+      user.loginHistory.push({
         dateTime: new Date().toString(),
         userAgent: userData.userAgent,
       });
       await User.updateOne(
-        { userName: users[0].userName },
-        { $set: { loginHistory: users[0].loginHistory } },
+        { userName: user.userName },
+        { $set: { loginHistory: user.loginHistory } },
       );
-      return users[0];
-    } catch (error) {
-      console.error(error);
-    }
+      return user;
+  },
+  getUser: async (userData) => {
+      const user = await User.findOne({ userName: userData.userName }).lean();
+      if (!user) {
+        throw new Error(`Unable to find user ${userData.userName}`);
+      }
+      return user;
   },
 };
 
