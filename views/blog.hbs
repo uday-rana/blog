@@ -1,5 +1,5 @@
 <div class="flex flex-wrap justify-center gap-4">
-	<div class="card sm:basis-2/3 max-w-screen-md shadow-xl">
+	<div class="card sm:basis-4/5 max-w-screen-md shadow-xl">
 		{{#if data.post}}
 			{{#if data.post.dataValues.featureImage}}
 				<figure><img src="{{data.post.dataValues.featureImage}}" alt="Featured image" class="object-cover" />
@@ -29,7 +29,7 @@
 			{{/if}}
 		</div>
 	</div>
-	<div class="flex flex-wrap sm:flex-col">
+	<div class="flex sm:basis-1/5 sm:flex-col">
 		{{#if data.posts}}
 			<ul class="menu rounded-box">
 				<li class="menu-title">Posts</li>
