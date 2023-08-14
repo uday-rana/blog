@@ -2694,6 +2694,10 @@ html {
   display: none;
 }
 
+.h-6 {
+  height: 1.5rem;
+}
+
 .min-h-screen {
   min-height: 100vh;
 }
@@ -2706,12 +2710,20 @@ html {
   width: 100%;
 }
 
+.w-6 {
+  width: 1.5rem;
+}
+
 .max-w-screen-md {
   max-width: 768px;
 }
 
 .flex-1 {
   flex: 1 1 0%;
+}
+
+.shrink-0 {
+  flex-shrink: 0;
 }
 
 .basis-1\/2 {
@@ -2741,6 +2753,10 @@ html {
 .bg-neutral {
   --tw-bg-opacity: 1;
   background-color: hsl(var(--n) / var(--tw-bg-opacity));
+}
+
+.stroke-current {
+  stroke: currentColor;
 }
 
 .object-cover {
