@@ -1,19 +1,19 @@
-  <div class="prose mx-auto">
-      <h1>Login History</h1>
-      <div class="overflow-x-auto">
-        <table class="table">
-          <thead>
-            <th scope="col">Login Date/Time</th>
-            <th scope="col">Client Information</th>
-          </thead>
-          <tbody>
-            {{#each user.loginHistory}}
-              <tr>
-                <td>{{dateTime}}</td>
-                <td>{{userAgent}}</td>
-              </tr>
-            {{/each}}
-          </tbody>
-        </table>
-      </div>
+<div class="prose mx-auto">
+  <h1>Login History</h1>
+  <div class="overflow-x-auto">
+    <table class="table">
+      <thead>
+        <th scope="col">Login Date/Time</th>
+        <th scope="col">Client Information</th>
+      </thead>
+      <tbody>
+        {{#each user.loginHistory}}
+          <tr>
+            <td>{{dateTime}}</td>
+            <td>{{userAgent}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
   </div>
+</div>

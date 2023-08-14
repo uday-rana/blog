@@ -1,30 +1,53 @@
-  <div class="prose mx-auto">
-    <h1>Add Post</h1>
-    <form action="/posts/add" method="post" enctype="multipart/form-data">
-        <label for="featureImage" class="label">Featured Image</label>
-        <input type="file" name="featureImage" id="featureImage" class="file-input"/>
-        <label for="title" class="label">Title</label>
-        <input type="text" id="title" name="title" placeholder="Title" class="input input-bordered w-full" />
-        <label for="body" class="label">Body</label>
-        <textarea name="body" id="body" rows="6" placeholder="Body" class="textarea textarea-bordered w-full"></textarea>
-        <div class="flex">
-          <div class="basis-1/2">
-            {{#if categories}}
-              <label for="category" class="label">Category</label>
-              <select name="category" id="category" class="select">
-                {{#each categories}}
-                  <option value="{{dataValues.id}}">{{dataValues.category}}</option>
-                {{/each}}
-              </select>
-            {{else}}
-              <div>No Categories</div>
-            {{/if}}
-          </div>
-          <div class="basis-1/2">
-            <label for="published" class="label">Published</label>
-            <input type="checkbox" role="switch" name="published" id="published" class="checkbox"/>
-          </div>
-        </div>
-      <button type="submit" class="btn mt-4">Add Post</button>
-    </form>
-  </div>
+<div class="prose mx-auto">
+  <h1>Add Post</h1>
+  <form action="/posts/add" method="post" enctype="multipart/form-data">
+    <label for="featureImage" class="label">Featured Image</label>
+    <input
+      type="file"
+      name="featureImage"
+      id="featureImage"
+      class="file-input"
+    />
+    <label for="title" class="label">Title</label>
+    <input
+      type="text"
+      id="title"
+      name="title"
+      placeholder="Title"
+      class="input input-bordered w-full"
+    />
+    <label for="body" class="label">Body</label>
+    <textarea
+      name="body"
+      id="body"
+      rows="6"
+      placeholder="Body"
+      class="textarea textarea-bordered w-full"
+    ></textarea>
+    <div class="flex">
+      <div class="basis-1/2">
+        {{#if categories}}
+          <label for="category" class="label">Category</label>
+          <select name="category" id="category" class="select">
+            {{#each categories}}
+              <option value="{{dataValues.id}}">{{dataValues.category}}</option>
+            {{/each}}
+          </select>
+        {{else}}
+          <div>No Categories</div>
+        {{/if}}
+      </div>
+      <div class="basis-1/2">
+        <label for="published" class="label">Published</label>
+        <input
+          type="checkbox"
+          role="switch"
+          name="published"
+          id="published"
+          class="checkbox"
+        />
+      </div>
+    </div>
+    <button type="submit" class="btn mt-4">Add Post</button>
+  </form>
+</div>

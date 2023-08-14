@@ -1,42 +1,35 @@
-  <div class="prose mx-auto">
-    <h1>Posts</h1>
-    <a href="/posts/add"><button class="btn">Add Post</button></a>
-    <div class="overflow-x-auto">
-      <table class="table">
-        <thead>
-          <th scope="col">Post ID</th>
-          <th scope="col">Title</th>
-          <th scope="col">Post Date</th>
-          <th scope="col">Category</th>
-          <th scope="col">Published</th>
-          <th></th>
-        </thead>
-        <tbody>
-          {{#each data}}
-            <tr>
-              <td>{{dataValues.id}}</td>
-              <td><a
-                  href="/blog/{{dataValues.id}}"
-                  
-                >{{dataValues.title}}</a></td>
-              <td>{{#formatDate dataValues.postDate}}{{/formatDate}}</td>
-              <td><a
-                  href="/posts?category={{dataValues.category}}"
-                  
-                >{{dataValues.category}}</a></td>
-              <td>{{dataValues.published}}</td>
-              <td><a
-                  href="/posts/delete/{{dataValues.id}}"
-                  
-                >Remove</a></td>
-            </tr>
-          {{/each}}
-        </tbody>
-      </table>
-    </div>
-    {{#unless data}}
-      <div>
-        {{message}}
-      </div>
-    {{/unless}}
+<div class="prose mx-auto">
+  <h1>Posts</h1>
+  <a href="/posts/add"><button class="btn">Add Post</button></a>
+  <div class="overflow-x-auto">
+    <table class="table">
+      <thead>
+        <th scope="col">Post ID</th>
+        <th scope="col">Title</th>
+        <th scope="col">Post Date</th>
+        <th scope="col">Category</th>
+        <th scope="col">Published</th>
+        <th></th>
+      </thead>
+      <tbody>
+        {{#each data}}
+          <tr>
+            <td>{{dataValues.id}}</td>
+            <td><a href="/blog/{{dataValues.id}}">{{dataValues.title}}</a></td>
+            <td>{{#formatDate dataValues.postDate}}{{/formatDate}}</td>
+            <td><a
+                href="/posts?category={{dataValues.category}}"
+              >{{dataValues.category}}</a></td>
+            <td>{{dataValues.published}}</td>
+            <td><a href="/posts/delete/{{dataValues.id}}">Remove</a></td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
   </div>
+  {{#unless data}}
+    <div>
+      {{message}}
+    </div>
+  {{/unless}}
+</div>

@@ -1,35 +1,31 @@
-  <div class="prose mx-auto">
-    <div>
-      <h1>Categories</h1>
-      <a href="/categories/add"><button class="btn">Add Category</button></a>
-      <div class="overflow-x-auto">
-        <table class="table">
-          <thead>
-            <th scope="col">Category ID</th>
-            <th scope="col">Category Name</th>
-            <th></th>
-          </thead>
-          <tbody>
-            {{#each data}}
-              <tr>
-                <td>{{dataValues.id}}</td>
-                <td><a
-                    href="/blog?category={{dataValues.id}}"
-                   
-                  >{{dataValues.category}}</a></td>
-                <td><a
-                    href="/categories/delete/{{dataValues.id}}"
-                   
-                  >Remove</a></td>
-              </tr>
-            {{/each}}
-          </tbody>
-        </table>
-      </div>
-      {{#unless data}}
-        <div>
-          {{message}}
-        </div>
-      {{/unless}}
+<div class="prose mx-auto">
+  <div>
+    <h1>Categories</h1>
+    <a href="/categories/add"><button class="btn">Add Category</button></a>
+    <div class="overflow-x-auto">
+      <table class="table">
+        <thead>
+          <th scope="col">Category ID</th>
+          <th scope="col">Category Name</th>
+          <th></th>
+        </thead>
+        <tbody>
+          {{#each data}}
+            <tr>
+              <td>{{dataValues.id}}</td>
+              <td><a
+                  href="/blog?category={{dataValues.id}}"
+                >{{dataValues.category}}</a></td>
+              <td><a href="/categories/delete/{{dataValues.id}}">Remove</a></td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
     </div>
+    {{#unless data}}
+      <div>
+        {{message}}
+      </div>
+    {{/unless}}
   </div>
+</div>
