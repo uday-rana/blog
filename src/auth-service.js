@@ -31,18 +31,18 @@ const authService = {
     }
   },
   registerUser: async (userData) => {
-      if (userData.password != userData.password2) {
-        throw new Error("Passwords do not match.");
-      }
-      const user = await User.findOne({ userName: userData.userName });
-      if (user) {
-        throw new Error(`Username ${userData.userName} already taken.`);
-      }
-      const hash = await bcrypt.hash(userData.password, 10);
-      userData.password = hash;
+    if (userData.password != userData.password2) {
+      throw new Error("Passwords do not match.");
+    }
+    const user = await User.findOne({ userName: userData.userName });
+    if (user) {
+      throw new Error(`Username ${userData.userName} already taken.`);
+    }
+    const hash = await bcrypt.hash(userData.password, 10);
+    userData.password = hash;
 
-      const newUser = new User(userData);
-      await newUser.save();
+    const newUser = new User(userData);
+    await newUser.save();
   },
   checkUser: async (userData) => {
     const user = await User.findOne({ userName: userData.userName });
