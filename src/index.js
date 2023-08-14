@@ -4,15 +4,15 @@ import authService from "./auth-service.js";
 
 const HTTP_PORT = process.env.PORT || 8080;
 
-function onHttpStart() {
-  console.log(`Express HTTP server listening on ${HTTP_PORT}`);
+function onHTTPStart() {
+  console.log(`Server listening on ${HTTP_PORT}`);
 }
 
 async function run() {
   try {
     await blogService.initialize();
     await authService.initialize();
-    app.listen(HTTP_PORT, onHttpStart);
+    app.listen(HTTP_PORT, onHTTPStart);
   } catch (error) {
     console.error(error);
   }
