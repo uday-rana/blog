@@ -35,8 +35,7 @@
 				<li class="menu-title">Posts</li>
 				{{#each data.posts}}
 					<li>
-						<a href="/blog/{{dataValues.id}}?category={{../viewingCategory}}"
-							class="list-group-item">{{dataValues.title}}</a>
+						<a href="/blog/{{dataValues.id}}?category={{../viewingCategory}}">{{dataValues.title}}</a>
 					</li>
 				{{/each}}
 			</ul>
@@ -45,7 +44,9 @@
 			<ul class="menu rounded-box">
 				<li class="menu-title">Categories</li>
 				{{#each data.categories}}
-					<li>{{#categoryLink this}}{{/categoryLink}}</li>
+					<li>
+						{{#categoryLink this}}{{/categoryLink}}
+					</li>
 				{{/each}}
 			</ul>
 		{{/if}}

@@ -26,7 +26,7 @@ app.engine(
     extname: `.hbs`,
     helpers: {
       navLink: (url, options) => {
-        return `<li>
+        return `
         <a href="${url}" ${
           url.split(`/`)[1] == app.locals.activeRoute.split(`/`)[1]
             ? 'class="active"'
@@ -34,14 +34,14 @@ app.engine(
         }">
         ${options.fn(this)}
         </a>
-        </li>`;
+        `;
       },
       categoryLink: (categoryObj) => {
-        return `<li><a href="/blog?category=${categoryObj.dataValues.id}" ${
+        return `<a href="/blog?category=${categoryObj.dataValues.id}" ${
           categoryObj.dataValues.id == app.locals.viewingCategory
             ? 'class="active"'
             : ""
-        }>${categoryObj.dataValues.category}</a></li>`;
+        }>${categoryObj.dataValues.category}</a>`;
       },
       equal: function (lvalue, rvalue, options) {
         if (arguments.length < 3) {

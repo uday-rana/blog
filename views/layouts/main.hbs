@@ -20,18 +20,18 @@
             <details class="dropdown dropdown-end">
               <summary>Menu</summary>
               <ul class="dropdown-content z-[1] p-2 shadow menu rounded-box w-40">
-                <li><a href="/blog">Blog</a></li>
-                <li><a href="/about">About</a></li>
+                <li>{{#navLink "/blog"}}Blog{{/navLink}}</li>
+                <li>{{#navLink "/about"}}About{{/navLink}}</li>
                 <div class="divider my-0"></div>
                 {{#if session.user}}
-                <li><a href="/posts">Posts</a></li>
-                <li><a href="/categories">Categories</a></li>
+                <li>{{#navLink "/posts"}}Posts{{/navLink}}</li>
+                <li>{{#navLink "/categories"}}Categories{{/navLink}}</li>
                 <li>
                   <details class="dropdown dropdown-end">
                     <summary>{{session.user.userName}}</summary>
                     <ul>
-                      <li><a href="/loginHistory">Login History</a></li>
-                      <li><a href="/logout">Log Out</a></li>
+                      <li>{{#navLink "/loginHistory"}}Login History{{/navLink}}</li>
+                      <li>{{#navLink "/logout"}}Log Out{{/navLink}}</li>
                     </ul>
                   </details>
                 </li>
@@ -48,24 +48,24 @@
       {{!-- Horizontal menu for larger screens --}}
       <div class="navbar-end hidden sm:flex">
         <ul class="menu menu-horizontal px-1">
-          {{#navLink "/blog"}}Blog{{/navLink}}
-          {{#navLink "/about"}}About{{/navLink}}
+          <li>{{#navLink "/blog"}}Blog{{/navLink}}</li>
+          <li>{{#navLink "/about"}}About{{/navLink}}</li>
           <div class="divider divider-horizontal mx-0"></div>
           {{#if session.user}}
-          {{#navLink "/posts"}}Posts{{/navLink}}
-          {{#navLink "/categories"}}Categories{{/navLink}}
+          <li>{{#navLink "/posts"}}Posts{{/navLink}}</li>
+          <li>{{#navLink "/categories"}}Categories{{/navLink}}</li>li>
           <li>
             <details class="dropdown dropdown-end">
               <summary>{{session.user.userName}}</summary>
               <ul class="dropdown-content z-[1] p-2 shadow menu rounded-box">
-                {{#navLink "/loginHistory"}}Login History{{/navLink}}
-                <li><a href="/logout">Log Out</a></li>
+                <li>{{#navLink "/loginHistory"}}Login History{{/navLink}}</li>
+                <li>{{#navLink "/logout"}}Log Out{{/navLink}}</li>
               </ul>
             </details>
           </li>
           {{else}}
-          {{#navLink "/register"}}Register{{/navLink}}
-          {{#navLink "/login"}}Login{{/navLink}}
+          <li>{{#navLink "/register"}}Register{{/navLink}}</li>
+          <li>{{#navLink "/login"}}Login{{/navLink}}</li>
           {{/if}}
         </ul>
       </div>
