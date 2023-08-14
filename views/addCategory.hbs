@@ -1,14 +1,10 @@
-<h2>Add Category</h2>
-<form action="/categories/add" method="post">
-  <div class="mb-3">
-    <label for="category" class="form-label">Category</label>
-    <input
-      type="text"
-      name="category"
-      id="category"
-      class="form-control"
-      autofocus
-    />
+  <div class="prose mx-auto">
+    <h1>Add Category</h1>
+    <form action="/categories/add" method="post">
+      <div>
+        <label for="category" class="label">Category</label>
+        <input type="text" name="category" id="category" class="input input-bordered w-full" placeholder="Category" autofocus />
+      </div>
+      <button type="submit" class="btn mt-4">Add Category</button>
+    </form>
   </div>
-  <button type="submit" class="btn btn-success float-end">Add Category</button>
-</form>
