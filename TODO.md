@@ -14,4 +14,6 @@
   - [x] Add `<link>` to `/css/main.css` instead of `nottailwind.css` in main.hbs
   - [x] Add component classes to .hbs files
 - [ ] Make Posts list in `/blog` show active post
+- [ ] Add edit post functionality
+- [ ] Confirm post deletion
 - [ ] Show 5 blog posts at a time on /blog route with pagination to go back/forward
