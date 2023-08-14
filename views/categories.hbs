@@ -1,7 +1,7 @@
 <div class="prose mx-auto">
   <div>
     <h1>Categories</h1>
-    <a href="/categories/add"><button class="btn">Add Category</button></a>
+    <a href="/categories/add"><button class="btn btn-success">Add Category</button></a>
     <div class="overflow-x-auto">
       <table class="table">
         <thead>
@@ -16,7 +16,7 @@
               <td><a
                   href="/blog?category={{dataValues.id}}"
                 >{{dataValues.category}}</a></td>
-              <td><a href="/categories/delete/{{dataValues.id}}">Remove</a></td>
+              <td><a href="/categories/delete/{{dataValues.id}}"><button class="btn btn-error">Remove</button></a></td>
             </tr>
           {{/each}}
         </tbody>
