@@ -26,18 +26,16 @@ app.engine(
     extname: `.hbs`,
     helpers: {
       navLink: (url, options) => {
-        return `
-        <a href="${url}" ${
+        return `<a href="${url}"
+        ${
           url.split(`/`)[1] == app.locals.activeRoute.split(`/`)[1]
             ? 'class="active"'
-            : ``
-        }">
-        ${options.fn(this)}
-        </a>
-        `;
+            : ""
+        }">${options.fn(this)}</a>`;
       },
       categoryLink: (categoryObj) => {
-        return `<a href="/blog?category=${categoryObj.dataValues.id}" ${
+        return `<a href="/blog?category=${categoryObj.dataValues.id}"
+        ${
           categoryObj.dataValues.id == app.locals.viewingCategory
             ? 'class="active"'
             : ""
@@ -68,7 +66,7 @@ app.engine(
         return `${day} ${month}, ${year}`;
       },
     },
-  }),
+  })
 );
 app.set(`view engine`, `.hbs`);
 
@@ -81,7 +79,7 @@ app.use(
     secret: process.env.COOKIE_SECRET,
     duration: 60 * 60 * 1000,
     activeDuration: 15 * 60 * 1000,
-  }),
+  })
 );
 
 app.use(function (req, res, next) {
@@ -144,7 +142,7 @@ app.get(`/blog`, async (req, res) => {
     viewData.categories = categories;
     // replace the post's category value with the category object
     viewData.post.dataValues.category = categories.find(
-      (e) => e.id == viewData.post.dataValues.category,
+      (e) => e.id == viewData.post.dataValues.category
     ).dataValues;
   } catch (err) {
     viewData.categoriesMessage = `No results`;
@@ -187,7 +185,7 @@ app.get(`/blog/:id`, async (req, res) => {
     viewData.categories = categories;
     // replace the post's category value with the category object
     viewData.post.dataValues.category = categories.find(
-      (e) => e.id == viewData.post.dataValues.category,
+      (e) => e.id == viewData.post.dataValues.category
     ).dataValues;
   } catch (err) {
     viewData.categoriesMessage = `No results`;
@@ -263,7 +261,7 @@ app.post(
     } else {
       processPost(``);
     }
-  },
+  }
 );
 
 app.get(`/posts/:id`, ensureLogin, async (req, res) => {
@@ -291,7 +289,7 @@ app.get(`/categories`, ensureLogin, async (req, res) => {
 });
 
 app.get(`/categories/add`, ensureLogin, (req, res) =>
-  res.render(`addCategory`),
+  res.render(`addCategory`)
 );
 
 app.post(`/categories/add`, ensureLogin, async (req, res) => {

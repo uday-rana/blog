@@ -1,20 +1,24 @@
-<div class="flex flex-wrap justify-center gap-4">
-	{{#if errorMessage}}
-		<div class="alert alert-error">
-			<svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-			<span>{{errorMessage}}</span>
-			</div>
-	{{/if}}
-	<div class="prose">
+<div class="flex flex-col items-center">
+	<div class="prose w-full">
 		<h1>Log In</h1>
+		{{#if errorMessage}}
+			<div class="alert alert-error">
+				<svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
+					viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+						d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+				</svg>
+				<span>{{errorMessage}}</span>
+			</div>
+		{{/if}}
 		<form action="/login" method="post">
 			<div>
 				<label for="userName" class="label">Username</label>
 				<input type="text" name="userName" id="userName" placeholder="Username" {{#if
-					userName}}value="{{userName}}" {{/if}} class="input input-bordered" />
+					userName}}value="{{userName}}" {{/if}} class="input input-bordered w-full" required />
 				<label for="password" class="label">Password</label>
-				<input type="password" name="password" id="password" placeholder="Password" class="input input-bordered"
-					required>
+				<input type="password" name="password" id="password" placeholder="Password"
+					class="input input-bordered w-full" required>
 			</div>
 			<button type="submit" class="btn mt-4">Log In</button>
 		</form>

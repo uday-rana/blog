@@ -36,7 +36,7 @@ const authService = {
     }
     const user = await User.findOne({ userName: userData.userName });
     if (user) {
-      throw new Error(`Username ${userData.userName} already taken.`);
+      throw new Error(`Username "${userData.userName}" not available.`);
     }
     const hash = await bcrypt.hash(userData.password, 10);
     userData.password = hash;
@@ -47,14 +47,14 @@ const authService = {
   checkUser: async (userData) => {
     const user = await User.findOne({ userName: userData.userName });
     if (!user) {
-      throw new Error(`Unable to find user ${userData.userName}.`);
+      throw new Error(`Unable to find user "${userData.userName}".`);
     }
     const passwordsMatch = await bcrypt.compare(
       userData.password,
       user.password,
     );
     if (!passwordsMatch) {
-      throw new Error(`Incorrect password for user: ${userData.userName}.`);
+      throw new Error(`Incorrect password for user "${userData.userName}".`);
     }
     user.loginHistory.push({
       dateTime: new Date().toString(),
@@ -69,7 +69,7 @@ const authService = {
   getUser: async (userData) => {
     const user = await User.findOne({ userName: userData.userName }).lean();
     if (!user) {
-      throw new Error(`Unable to find user ${userData.userName}.`);
+      throw new Error(`Unable to find user "${userData.userName}".`);
     }
     return user;
   },
