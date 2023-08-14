@@ -2,15 +2,15 @@
   "name": "web322-app",
   "version": "1.0.0",
   "description": "",
-  "main": "src/server.js",
+  "main": "src/index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/server.js",
-    "watch": "node --watch src/server.js",
+    "start": "node src/index.js",
+    "watch": "node --watch src/index.js",
     "pretty": "prettier --write \"./**/*.{js,jsx,ts,tsx,json}\"",
     "lint": "eslint src/",
-    "tw:build": "tailwindcss -i src/tailwind.css -o public/css/main.css --watch"
+    "tw:watch": "tailwindcss -i src/tailwind.css -o public/css/main.css --watch"
   },
   "author": "Uday Rana",
   "license": "ISC",

@@ -14,6 +14,7 @@ const sequelize = new Sequelize(
       ssl: { rejectUnauthorized: false },
       query: { raw: true },
     },
+    logging: false,
   },
 );
 

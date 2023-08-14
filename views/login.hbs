@@ -1,14 +1,17 @@
-{{#if errorMessage}}
-<div class="alert alert-danger">{{errorMessage}}</div>
-{{/if}}
-
-<h2>Log In</h2>
-<form action="/login" method="post">
-		<div class="mb-3">
-			<label for="userName" class="form-label">Username</label>
-			<input type="text" name="userName" id="userName" placeholder="Username" class="form-control mb-3" {{#if userName}}value="{{userName}}"{{/if}} required/>
-			<label for="password" class="form-label">Password</label>
-			<input type="password" name="password" id="password" placeholder="Password" class="form-control" required>
-		</div>
-	<button type="submit" class="btn btn-success float-end">Log In</button>
-</form>
+<div class="flex flex-wrap justify-center gap-4">
+	{{#if errorMessage}}
+	<div>{{errorMessage}}</div>
+	{{/if}}
+	<div class="prose">
+		<h1>Log In</h1>
+		<form action="/login" method="post">
+			<div>
+				<label for="userName" class="label">Username</label>
+				<input type="text" name="userName" id="userName" placeholder="Username" {{#if userName}}value="{{userName}}"{{/if}} class="input input-bordered"/>
+				<label for="password" class="label">Password</label>
+				<input type="password" name="password" id="password" placeholder="Password" class="input input-bordered" required>
+			</div>
+			<button type="submit" class="btn mt-4">Log In</button>
+		</form>
+	</div>
+</div>

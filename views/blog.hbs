@@ -1,43 +1,53 @@
-<div class="row px-2">
-	<section class="col-md-9 card px-0 mb-3">
+<div class="flex flex-wrap justify-center gap-4">
+	<div class="card sm:basis-2/3 max-w-screen-md shadow-xl">
 		{{#if data.post}}
-		{{#if data.post.dataValues.featureImage}}
-		<img src="{{data.post.dataValues.featureImage}}" alt="Featured image" class="img-fluid d-block mx-auto my-3" />
+			{{#if data.post.dataValues.featureImage}}
+				<figure><img src="{{data.post.dataValues.featureImage}}" alt="Featured image" class="object-cover" />
+				</figure>
+			{{/if}}
 		{{/if}}
-		<div class="card-body">
-			<h1 class="card-title">{{#safeHTML data.post.dataValues.title}}{{/safeHTML}}</h1>
-			<p class="card-text">{{#safeHTML data.post.dataValues.body}}{{/safeHTML}}</p>
+		<div class="card-body prose">
+			<h2 class="card-title">
+				{{#if data.post}}
+					{{#safeHTML data.post.dataValues.title}}{{/safeHTML}}
+				{{else}}No posts found!
+				{{/if}}
+			</h2>
+			<p>
+				{{#if data.post}}
+					{{#safeHTML data.post.dataValues.body}}{{/safeHTML}}
+				{{else}}{{data.message}}
+				{{/if}}
+			</p>
+			{{#if data.post}}
+				<ul>
+					<li>Category: <a
+							href="/blog?category={{data.post.dataValues.category.id}}">{{data.post.dataValues.category.category}}</a>
+					</li>
+					<li>Last Updated: {{#formatDate data.post.dataValues.postDate}}{{/formatDate}}</li>
+				</ul>
+			{{/if}}
 		</div>
-		<div class="card-footer text-body-secondary">
-			<ul class="list-group list-group-flush">
-				<li class="list-group-item">Category: <a href="/blog?category={{data.post.dataValues.category.id}}" class="card-link">{{data.post.dataValues.category.category}}</a></li>
-				<li class="list-group-item">Last Updated: {{#formatDate data.post.dataValues.postDate}}{{/formatDate}}</li>
-			</ul>				
-		</div>
-		{{else}}
-		<div class="card-body text-center">
-			<h1 class="card-title">No posts found!</h1>
-			<p class="card-text">{{data.message}}</p>
-		</div>
-		{{/if}}
-	</section>
-	<aside class="col-md-3">
+	</div>
+	<div class="flex flex-wrap sm:flex-col">
 		{{#if data.posts}}
-		<h4>Posts</h4>
-		<ul class="list-group mb-3">
-			{{#each data.posts}}
-			<a href="/blog/{{dataValues.id}}?category={{../viewingCategory}}"
-				class="list-group-item">{{dataValues.title}}</a>
-			{{/each}}
-		</ul>
+			<ul class="menu rounded-box">
+				<li class="menu-title">Posts</li>
+				{{#each data.posts}}
+					<li>
+						<a href="/blog/{{dataValues.id}}?category={{../viewingCategory}}"
+							class="list-group-item">{{dataValues.title}}</a>
+					</li>
+				{{/each}}
+			</ul>
 		{{/if}}
 		{{#if data.categories}}
-		<h4>Categories</h4>
-		<ul class="list-group">
-			{{#each data.categories}}
-			<a href="/blog?category={{dataValues.id}}" class="list-group-item">{{dataValues.category}}</a>
-			{{/each}}
-		</ul>
+			<ul class="menu rounded-box">
+				<li class="menu-title">Categories</li>
+				{{#each data.categories}}
+					<li>{{#categoryLink this}}{{/categoryLink}}</li>
+				{{/each}}
+			</ul>
 		{{/if}}
-	</aside>
+	</div>
 </div>
