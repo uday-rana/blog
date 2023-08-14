@@ -31,31 +31,30 @@ const authService = {
     }
   },
   registerUser: async (userData) => {
-    try {
       if (userData.password != userData.password2) {
-        throw new Error("Passwords do not match");
+        throw new Error("Passwords do not match.");
       }
-
+      const user = await User.findOne({ userName: userData.userName });
+      if (user) {
+        throw new Error(`Username ${userData.userName} already taken.`);
+      }
       const hash = await bcrypt.hash(userData.password, 10);
       userData.password = hash;
 
       const newUser = new User(userData);
       await newUser.save();
-    } catch (error) {
-      console.error(error);
-    }
   },
   checkUser: async (userData) => {
     const user = await User.findOne({ userName: userData.userName });
     if (!user) {
-      throw new Error(`Unable to find user ${userData.userName}`);
+      throw new Error(`Unable to find user ${userData.userName}.`);
     }
     const passwordsMatch = await bcrypt.compare(
       userData.password,
       user.password,
     );
     if (!passwordsMatch) {
-      throw new Error(`Incorrect password for user: ${userData.userName}`);
+      throw new Error(`Incorrect password for user: ${userData.userName}.`);
     }
     user.loginHistory.push({
       dateTime: new Date().toString(),
@@ -70,7 +69,7 @@ const authService = {
   getUser: async (userData) => {
     const user = await User.findOne({ userName: userData.userName }).lean();
     if (!user) {
-      throw new Error(`Unable to find user ${userData.userName}`);
+      throw new Error(`Unable to find user ${userData.userName}.`);
     }
     return user;
   },

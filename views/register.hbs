@@ -1,18 +1,12 @@
 <div class="flex flex-wrap justify-center gap-4">
 	{{#if successMessage}}
+		<div class="alert alert-success">{{successMessage}}</div>
 		<div>
-			<strong>Success:</strong> {{successMessage}}
-		</div>
-		<div>
-			<a href="/login">
-				&nbsp;&nbsp;&nbsp;Proceed to Log in&nbsp;&nbsp;&nbsp;
-			</a>
+			<a href="/login"><button class="btn">Proceed to Log in</button></a>
 		</div>
 	{{else}}
 		{{#if errorMessage}}
-			<div>
-				<strong>Error:</strong> {{errorMessage}}
-			</div>
+			<div class="alert alert-error">{{errorMessage}}</div>
 		{{/if}}
 		<div class="prose">
 			<h1>Register</h1>

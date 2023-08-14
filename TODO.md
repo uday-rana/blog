@@ -6,6 +6,7 @@
 - [x] Implement CI workflow for linting/testing
 - [x] Retreive login history from database instead of cookie
 - [x] Bugfix: ![Alt text](image.png)
+- [x] Bugfix: Allows creation of duplicate usernames
 - [x] Replace bootstrap with tailwind/daisyui
   - [x] Set up tailwind
   - [x] Set up daisyui
