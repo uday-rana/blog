@@ -64,8 +64,8 @@
             </details>
           </li>
           {{else}}
-          <li><a href="/register">Register</a></li>
-          <li><a href="/login">Login</a></li>
+          {{#navLink "/register"}}Register{{/navLink}}
+          {{#navLink "/login"}}Login{{/navLink}}
           {{/if}}
         </ul>
       </div>

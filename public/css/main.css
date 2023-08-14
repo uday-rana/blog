@@ -446,116 +446,116 @@ html {
 
 :root {
   color-scheme: light;
-  --pf: 0 0% 0%;
-  --sf: 0 2% 3%;
-  --af: 0 0% 8%;
-  --nf: 0 0% 0%;
+  --pf: 229 96% 57%;
+  --sf: 215 26% 52%;
+  --af: 154 49% 53%;
+  --nf: 233 27% 6%;
+  --b2: 0 0% 93%;
+  --b3: 0 0% 86%;
+  --in: 198 93% 60%;
+  --su: 158 64% 52%;
+  --wa: 43 96% 56%;
+  --er: 0 91% 71%;
+  --pc: 243 100% 94%;
+  --sc: 216 13% 13%;
+  --ac: 151 21% 13%;
+  --inc: 198 100% 12%;
+  --suc: 158 100% 10%;
+  --wac: 43 100% 11%;
+  --erc: 0 100% 14%;
   --btn-text-case: uppercase;
   --border-btn: 1px;
   --tab-border: 1px;
-  --p: 0 0% 5%;
-  --pc: 0 0% 100%;
-  --s: 0 2% 10%;
-  --sc: 0 0% 100%;
-  --a: 0 0% 15%;
-  --ac: 0 0% 100%;
-  --n: 0 0% 0%;
-  --nc: 0 0% 100%;
+  --tab-radius: 0.5rem;
+  --p: 229 96% 64%;
+  --s: 215 26% 59%;
+  --a: 154 49% 60%;
+  --n: 233 27% 13%;
+  --nc: 210 38% 95%;
   --b1: 0 0% 100%;
-  --b2: 0 0% 95%;
-  --b3: 0 2% 90%;
-  --bc: 0 0% 0%;
-  --in: 212 100% 48%;
-  --inc: 0 0% 100%;
-  --su: 137 72% 46%;
-  --suc: 0 0% 0%;
-  --wa: 5 100% 66%;
-  --wac: 0 0% 100%;
-  --er: 325 78% 49%;
-  --erc: 0 0% 100%;
+  --bc: 233 27% 13%;
   --rounded-box: 0.25rem;
-  --rounded-btn: 0.125rem;
-  --rounded-badge: 0.125rem;
+  --rounded-btn: .125rem;
+  --rounded-badge: .125rem;
   --animation-btn: 0;
   --animation-input: 0;
   --btn-focus-scale: 1;
-  --tab-radius: 0;
 }
 
-[data-theme=lofi] {
+[data-theme=corporate] {
   color-scheme: light;
-  --pf: 0 0% 0%;
-  --sf: 0 2% 3%;
-  --af: 0 0% 8%;
-  --nf: 0 0% 0%;
+  --pf: 229 96% 57%;
+  --sf: 215 26% 52%;
+  --af: 154 49% 53%;
+  --nf: 233 27% 6%;
+  --b2: 0 0% 93%;
+  --b3: 0 0% 86%;
+  --in: 198 93% 60%;
+  --su: 158 64% 52%;
+  --wa: 43 96% 56%;
+  --er: 0 91% 71%;
+  --pc: 243 100% 94%;
+  --sc: 216 13% 13%;
+  --ac: 151 21% 13%;
+  --inc: 198 100% 12%;
+  --suc: 158 100% 10%;
+  --wac: 43 100% 11%;
+  --erc: 0 100% 14%;
   --btn-text-case: uppercase;
   --border-btn: 1px;
   --tab-border: 1px;
-  --p: 0 0% 5%;
-  --pc: 0 0% 100%;
-  --s: 0 2% 10%;
-  --sc: 0 0% 100%;
-  --a: 0 0% 15%;
-  --ac: 0 0% 100%;
-  --n: 0 0% 0%;
-  --nc: 0 0% 100%;
+  --tab-radius: 0.5rem;
+  --p: 229 96% 64%;
+  --s: 215 26% 59%;
+  --a: 154 49% 60%;
+  --n: 233 27% 13%;
+  --nc: 210 38% 95%;
   --b1: 0 0% 100%;
-  --b2: 0 0% 95%;
-  --b3: 0 2% 90%;
-  --bc: 0 0% 0%;
-  --in: 212 100% 48%;
-  --inc: 0 0% 100%;
-  --su: 137 72% 46%;
-  --suc: 0 0% 0%;
-  --wa: 5 100% 66%;
-  --wac: 0 0% 100%;
-  --er: 325 78% 49%;
-  --erc: 0 0% 100%;
+  --bc: 233 27% 13%;
   --rounded-box: 0.25rem;
-  --rounded-btn: 0.125rem;
-  --rounded-badge: 0.125rem;
+  --rounded-btn: .125rem;
+  --rounded-badge: .125rem;
   --animation-btn: 0;
   --animation-input: 0;
   --btn-focus-scale: 1;
-  --tab-radius: 0;
 }
 
-[data-theme=black] {
+[data-theme=business] {
   color-scheme: dark;
-  --pf: 0 2% 13%;
-  --sf: 0 2% 13%;
-  --af: 0 2% 13%;
-  --bc: 145 0% 78%;
-  --pc: 0 1% 82%;
-  --sc: 0 1% 82%;
-  --ac: 0 1% 82%;
-  --nc: 0 0% 81%;
-  --inc: 263 100% 91%;
-  --suc: 105 32% 85%;
-  --wac: 58 45% 13%;
-  --erc: 17 100% 90%;
+  --pf: 210 64% 24%;
+  --sf: 200 13% 48%;
+  --af: 13 80% 53%;
+  --nf: 213 14% 9%;
+  --b2: 0 0% 6%;
+  --b3: 0 0% 0%;
+  --bc: 145 0% 80%;
+  --pc: 219 26% 86%;
+  --sc: 200 7% 12%;
+  --ac: 14 40% 13%;
+  --nc: 214 3% 81%;
+  --inc: 210 64% 91%;
+  --suc: 141 16% 12%;
+  --wac: 37 30% 13%;
+  --erc: 11 59% 89%;
+  --animation-btn: 0.25s;
+  --animation-input: .2s;
+  --btn-text-case: uppercase;
+  --btn-focus-scale: 0.95;
   --border-btn: 1px;
   --tab-border: 1px;
-  --p: 0 2% 20%;
-  --s: 0 2% 20%;
-  --a: 0 2% 20%;
-  --b1: 0 0% 0%;
-  --b2: 0 0% 5%;
-  --b3: 0 2% 10%;
-  --n: 0 1% 15%;
-  --nf: 0 2% 20%;
-  --in: 240 100% 50%;
-  --su: 120 100% 25%;
-  --wa: 60 100% 50%;
-  --er: 0 100% 50%;
-  --rounded-box: 0;
-  --rounded-btn: 0;
-  --rounded-badge: 0;
-  --animation-btn: 0;
-  --animation-input: 0;
-  --btn-text-case: lowercase;
-  --btn-focus-scale: 1;
-  --tab-radius: 0;
+  --tab-radius: 0.5rem;
+  --p: 210 64% 31%;
+  --s: 200 13% 55%;
+  --a: 13 80% 60%;
+  --n: 213 14% 16%;
+  --b1: 0 0% 13%;
+  --in: 199 100% 42%;
+  --su: 144 31% 56%;
+  --wa: 39 64% 60%;
+  --er: 6 56% 43%;
+  --rounded-box: 0.25rem;
+  --rounded-btn: .125rem;
+  --rounded-badge: .125rem;
 }
 
 *, ::before, ::after {
@@ -2704,10 +2704,6 @@ html {
 
 .w-full {
   width: 100%;
-}
-
-.w-28 {
-  width: 7rem;
 }
 
 .max-w-screen-md {
