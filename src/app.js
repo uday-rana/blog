@@ -26,9 +26,22 @@ app.engine(
     extname: `.hbs`,
     helpers: {
       navLink: (url, options) => {
-        return `<li class="nav-item"><a href="${url}" class="nav-link mb-1 ${
-          url == app.locals.activeRoute ? " active" : ``
-        }">${options.fn(this)}</a></li>`;
+        return `<li>
+        <a href="${url}" ${
+          url.split(`/`)[1] == app.locals.activeRoute.split(`/`)[1]
+            ? 'class="active"'
+            : ``
+        }">
+        ${options.fn(this)}
+        </a>
+        </li>`;
+      },
+      categoryLink: (categoryObj) => {
+        return `<li><a href="/blog?category=${categoryObj.dataValues.id}" ${
+          categoryObj.dataValues.id == app.locals.viewingCategory
+            ? 'class="active"'
+            : ""
+        }>${categoryObj.dataValues.category}</a></li>`;
       },
       equal: function (lvalue, rvalue, options) {
         if (arguments.length < 3) {
@@ -50,9 +63,9 @@ app.engine(
       },
       formatDate: (dateObj) => {
         const year = dateObj.getFullYear();
-        const month = (dateObj.getMonth() + 1).toString();
+        const month = dateObj.toLocaleString("default", { month: "long" });
         const day = dateObj.getDate().toString();
-        return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+        return `${day} ${month}, ${year}`;
       },
     },
   }),
@@ -217,31 +230,36 @@ app.post(
   `/posts/add`,
   ensureLogin,
   upload.single(`featureImage`),
-  async (req, res) => {
+  (req, res) => {
+    function processPost(imageUrl) {
+      req.body.featureImage = imageUrl;
+      blogService.addPost(req.body).then(res.redirect(`/posts`));
+    }
+
     async function streamUpload(req) {
-      try {
-        const stream = await cloudinary.uploader.upload_stream();
+      return new Promise((resolve, reject) => {
+        let stream = cloudinary.uploader.upload_stream((error, result) => {
+          if (result) {
+            resolve(result);
+          } else {
+            reject(error);
+          }
+        });
+
         streamifier.createReadStream(req.file.buffer).pipe(stream);
-      } catch (error) {
-        console.error(error);
-      }
+      });
     }
 
     async function upload(req) {
-      const result = await streamUpload(req);
+      let result = await streamUpload(req);
       console.log(result);
       return result;
     }
 
-    async function processPost(imageUrl) {
-      req.body.featureImage = imageUrl;
-      await blogService.addPost(req.body);
-      res.redirect(`/posts`);
-    }
-
     if (req.file) {
-      const uploaded = await upload(req);
-      processPost(uploaded.url);
+      upload(req).then((uploaded) => {
+        processPost(uploaded.url);
+      });
     } else {
       processPost(``);
     }
@@ -324,7 +342,7 @@ app.post(`/login`, async (req, res) => {
       email: user.email,
     };
 
-    res.redirect(`/posts`);
+    res.redirect(`/blog`);
   } catch (error) {
     res.render(`login`, { errorMessage: error, userName: req.body.userName });
   }
