@@ -40,6 +40,20 @@ const blogService = {
       console.error(error);
     }
   },
+  addPost: async (postData) => {
+    try {
+      postData.published = postData.published ? true : false;
+      postData.postDate = new Date();
+      for (let key in postData) {
+        if (key == "") {
+          key = null;
+        }
+      }
+      await Post.create(postData);
+    } catch (error) {
+      console.error(error);
+    }
+  },
   getAllPosts: async () => {
     try {
       return await Post.findAll();
@@ -65,22 +79,8 @@ const blogService = {
   },
   getPostById: async (idToFind) => {
     try {
-      const post = await Post.findAll({ where: { id: idToFind } });
-      return post[0];
-    } catch (error) {
-      console.error(error);
-    }
-  },
-  addPost: async (postData) => {
-    try {
-      postData.published = postData.published ? true : false;
-      postData.postDate = new Date();
-      for (let key in postData) {
-        if (key == "") {
-          key = null;
-        }
-      }
-      await Post.create(postData);
+      const post = await Post.findByPk(idToFind);
+      return post;
     } catch (error) {
       console.error(error);
     }
@@ -101,9 +101,23 @@ const blogService = {
       console.error(error);
     }
   },
+  deletePostById: async (idToFind) => {
+    try {
+      await Post.destroy({ where: { id: idToFind } });
+    } catch (error) {
+      console.error(error);
+    }
+  },
   getCategories: async () => {
     try {
       return await Category.findAll();
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  getCategoryById: async (idToFind) => {
+    try {
+      return await Category.findByPk(idToFind)
     } catch (error) {
       console.error(error);
     }
@@ -123,13 +137,6 @@ const blogService = {
   deleteCategoryById: async (idToFind) => {
     try {
       await Category.destroy({ where: { id: idToFind } });
-    } catch (error) {
-      console.error(error);
-    }
-  },
-  deletePostById: async (idToFind) => {
-    try {
-      await Post.destroy({ where: { id: idToFind } });
     } catch (error) {
       console.error(error);
     }
