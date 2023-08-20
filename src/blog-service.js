@@ -12,8 +12,8 @@ const sequelize = new Sequelize(
     port: 5432,
     dialectOptions: {
       ssl: { rejectUnauthorized: false },
-      query: { raw: true },
     },
+    query: { raw: true },
     logging: false,
   },
 );
@@ -61,9 +61,9 @@ const blogService = {
       console.error(error);
     }
   },
-  getPostsByCategory: async (catToFind) => {
+  getPostsByCategory: async (categoryToFind) => {
     try {
-      return await Post.findAll({ where: { category: catToFind } });
+      return await Post.findAll({ where: { category: categoryToFind } });
     } catch (error) {
       console.error(error);
     }
@@ -77,9 +77,9 @@ const blogService = {
       console.error(error);
     }
   },
-  getPostById: async (idToFind) => {
+  getPostById: async (postID) => {
     try {
-      const post = await Post.findByPk(idToFind);
+      const post = await Post.findByPk(postID);
       return post;
     } catch (error) {
       console.error(error);
@@ -92,32 +92,73 @@ const blogService = {
       console.error(error);
     }
   },
-  getPublishedPostsByCategory: async (catToFind) => {
+  getPublishedPostsByCategory: async (categorytoFind) => {
     try {
       return await Post.findAll({
-        where: { published: true, category: catToFind },
+        where: { published: true, category: categorytoFind },
       });
     } catch (error) {
       console.error(error);
     }
   },
-  deletePostById: async (idToFind) => {
+  updatePost: async (postID, postData) => {
     try {
-      await Post.destroy({ where: { id: idToFind } });
+      if (postID && postData) {
+        for (let key in postData) {
+          if (key == "") {
+            key = null;
+          }
+        }
+        // This is ugly but the alternative is using .set() which requires
+        // removing query:{raw:true} from the Sequelize config and inserting
+        // ".dataValues." into every single .hbs file and view data object.
+        if (postData.removeImage) {
+          // Remove image
+          await Post.update(
+            {
+              body: postData.body,
+              title: postData.title,
+              postDate: new Date(),
+              published: postData.published,
+              category: postData.category,
+              featureImage: "",
+            },
+            { where: { id: postID } },
+          );
+        } else if (postData.featureImage) {
+          // Change image
+          await Post.update(
+            {
+              body: postData.body,
+              title: postData.title,
+              postDate: new Date(),
+              published: postData.published,
+              category: postData.category,
+              featureImage: postData.featureImage,
+            },
+            { where: { id: postID } },
+          );
+        } else {
+          // Keep current image
+          await Post.update(
+            {
+              body: postData.body,
+              title: postData.title,
+              postDate: new Date(),
+              published: postData.published,
+              category: postData.category,
+            },
+            { where: { id: postID } },
+          );
+        }
+      }
     } catch (error) {
       console.error(error);
     }
   },
-  getCategories: async () => {
+  deletePostById: async (categoryID) => {
     try {
-      return await Category.findAll();
-    } catch (error) {
-      console.error(error);
-    }
-  },
-  getCategoryById: async (idToFind) => {
-    try {
-      return await Category.findByPk(idToFind)
+      await Post.destroy({ where: { id: categoryID } });
     } catch (error) {
       console.error(error);
     }
@@ -134,9 +175,40 @@ const blogService = {
       console.error(error);
     }
   },
-  deleteCategoryById: async (idToFind) => {
+  getCategories: async () => {
     try {
-      await Category.destroy({ where: { id: idToFind } });
+      return await Category.findAll();
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  getCategoryById: async (categoryID) => {
+    try {
+      return await Category.findByPk(categoryID);
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  updateCategory: async (categoryID, categoryData) => {
+    try {
+      if (categoryID && categoryData) {
+        for (let key in categoryData) {
+          if (key == ``) {
+            key = null;
+          }
+        }
+        await Category.update(
+          { category: categoryData.category },
+          { where: { id: categoryID } },
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  deleteCategoryById: async (categoryID) => {
+    try {
+      await Category.destroy({ where: { id: categoryID } });
     } catch (error) {
       console.error(error);
     }

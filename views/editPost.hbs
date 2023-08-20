@@ -1,0 +1,50 @@
+<div class="prose mx-auto">
+  <a href="/posts"><button class="btn mb-4">Back</button></a>
+  <h1>Edit Post</h1>
+  {{#if post.featureImage}}
+    <img src="{{post.featureImage}}" alt="Featured Image">
+  {{/if}}
+  <form action="/posts/edit/{{post.id}}" method="post" enctype="multipart/form-data">
+    {{#if post.featureImage}}
+      <div class="flex">
+        <div class="basis-1/2">
+          <label for="removeImage" class="label">Remove Image</label>
+          <input type="checkbox" role="switch" name="removeImage" id="removeImage" class="checkbox">
+        </div>
+        <div class="basis-1/2">
+          <label for="featureImage" class="label">Change Image</label>
+          <input type="file" name="featureImage" id="featureImage" class="file-input" value="{{post.featureImage}}" />
+        </div>
+      </div>
+    {{/if}}
+    {{#unless post.featureImage}}
+      <label for="featureImage" class="label">Featured Image</label>
+      <input type="file" name="featureImage" id="featureImage" class="file-input" value="{{post.featureImage}}" />
+    {{/unless}}
+    <label for="title" class="label">Title</label>
+    <input type="text" id="title" name="title" placeholder="Title" class="input input-bordered w-full"
+      value="{{post.title}}" />
+    <label for="body" class="label">Body</label>
+    <textarea name="body" id="body" rows="6" placeholder="Body"
+      class="textarea textarea-bordered w-full">{{post.body}}</textarea>
+    <div class="flex">
+      <div class="basis-1/2">
+        {{#if categories}}
+          <label for="category" class="label">Category</label>
+          <select name="category" id="category" class="select">
+            {{#each categories}}
+              <option value="{{id}}">{{category}}</option>
+            {{/each}}
+          </select>
+        {{else}}
+          <div>No Categories</div>
+        {{/if}}
+      </div>
+      <div class="basis-1/2">
+        <label for="published" class="label">Published</label>
+        <input type="checkbox" role="switch" name="published" id="published" class="checkbox" />
+      </div>
+    </div>
+    <button type="submit" class="btn btn-success mt-4">Update</button>
+  </form>
+</div>

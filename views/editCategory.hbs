@@ -1,7 +1,7 @@
 <div class="prose mx-auto">
   <a href="/categories"><button class="btn mb-4">Back</button></a>
-  <h1>Add Category</h1>
-  <form action="/categories/add" method="post">
+  <h1>Edit Category</h1>
+  <form action="/categories/edit/{{data.id}}" method="post">
     <div>
       <label for="category" class="label">Category</label>
       <input
@@ -10,9 +10,10 @@
         id="category"
         class="input input-bordered w-full"
         placeholder="Category"
+        value="{{data.category}}"
         autofocus
       />
     </div>
-    <button type="submit" class="btn btn-success mt-4">Add</button>
+    <button type="submit" class="btn btn-success mt-4">Update Category</button>
   </form>
 </div>

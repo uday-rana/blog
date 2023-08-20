@@ -3,19 +3,19 @@
 	<div class="flex flex-col items-center gap-4 sm:basis-4/5 max-w-screen-md">
 		{{#each data.currPosts}}
 			<div class="card shadow-xl">
-				{{#if dataValues.featureImage}}
+				{{#if featureImage}}
 					<figure>
-						<img src="{{dataValues.featureImage}}" alt="Featured image" class="object-cover" />
+						<img src="{{featureImage}}" alt="Featured image" class="object-cover" />
 					</figure>
 				{{/if}}
 				<div class="card-body prose">
-					<h2 class="card-title">{{#safeHTML dataValues.title}}{{/safeHTML}}</h2>
-					<p>{{#safeHTML dataValues.body}}{{/safeHTML}}</p>
+					<h2 class="card-title">{{#safeHTML title}}{{/safeHTML}}</h2>
+					<p>{{#safeHTML body}}{{/safeHTML}}</p>
 					<ul>
 						<li>
-							Category: <a href="/blog?category={{dataValues.category.id}}">{{dataValues.category.category}}</a>
+							Category: <a href="/blog?category={{category.id}}">{{category.category}}</a>
 						</li>
-						<li>Last Updated: {{#formatDate dataValues.postDate}}{{/formatDate}}</li>
+						<li>Last Updated: {{#formatDate postDate}}{{/formatDate}}</li>
 					</ul>
 				</div>
 			</div>
@@ -30,30 +30,30 @@
 		<!--
 		<div class="card sm:basis-4/5 max-w-screen-md shadow-xl">
 			{{#if data.post}}
-				{{#if data.post.dataValues.featureImage}}
-					<figure><img src="{{data.post.dataValues.featureImage}}" alt="Featured image" class="object-cover" />
+				{{#if data.post.featureImage}}
+					<figure><img src="{{data.post.featureImage}}" alt="Featured image" class="object-cover" />
 					</figure>
 				{{/if}}
 			{{/if}}
 			<div class="card-body prose">
 				<h2 class="card-title">
 					{{#if data.post}}
-						{{#safeHTML data.post.dataValues.title}}{{/safeHTML}}
+						{{#safeHTML data.post.title}}{{/safeHTML}}
 					{{else}}No posts found!
 					{{/if}}
 				</h2>
 				<p>
 					{{#if data.post}}
-						{{#safeHTML data.post.dataValues.body}}{{/safeHTML}}
+						{{#safeHTML data.post.body}}{{/safeHTML}}
 					{{else}}{{data.message}}
 					{{/if}}
 				</p>
 				{{#if data.post}}
 					<ul>
 						<li>Category: <a
-								href="/blog?category={{data.post.dataValues.category.id}}">{{data.post.dataValues.category.category}}</a>
+								href="/blog?category={{data.post.category.id}}">{{data.post.category.category}}</a>
 						</li>
-						<li>Last Updated: {{#formatDate data.post.dataValues.postDate}}{{/formatDate}}</li>
+						<li>Last Updated: {{#formatDate data.post.postDate}}{{/formatDate}}</li>
 					</ul>
 				{{/if}}
 			</div>
@@ -79,9 +79,9 @@
 				{{#each data.allPosts}}
 					<li>
 						{{#if ../viewingCategory}}
-						<a href="/blog/{{dataValues.id}}?category={{../viewingCategory}}">{{dataValues.title}}</a>
+						<a href="/blog/{{id}}?category={{../viewingCategory}}">{{title}}</a>
 						{{else}}
-						<a href="/blog/{{dataValues.id}}">{{dataValues.title}}</a>
+						<a href="/blog/{{id}}">{{title}}</a>
 						{{/if}}
 					</li>
 				{{/each}}

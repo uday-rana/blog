@@ -35,12 +35,10 @@ app.engine(
       },
       categoryLink: (categoryObj) => {
         if (categoryObj) {
-          return `<a href="/blog?category=${categoryObj.dataValues.id}"
+          return `<a href="/blog?category=${categoryObj.id}"
         ${
-          categoryObj.dataValues.id == app.locals.viewingCategory
-            ? 'class="active"'
-            : ""
-        }>${categoryObj.dataValues.category}</a>`;
+          categoryObj.id == app.locals.viewingCategory ? 'class="active"' : ""
+        }>${categoryObj.category}</a>`;
         }
       },
       equal: function (lvalue, rvalue, options) {
@@ -68,7 +66,7 @@ app.engine(
         }
       },
     },
-  })
+  }),
 );
 app.set(`view engine`, `.hbs`);
 
@@ -81,7 +79,7 @@ app.use(
     secret: process.env.COOKIE_SECRET,
     duration: 60 * 60 * 1000,
     activeDuration: 15 * 60 * 1000,
-  })
+  }),
 );
 app.use((req, res, next) => {
   res.locals.session = req.session;
@@ -107,6 +105,20 @@ function ensureLogin(req, res, next) {
   }
 }
 
+async function streamUpload(buffer) {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream((error, result) => {
+      if (result) {
+        resolve(result);
+      } else {
+        reject(error);
+      }
+    });
+
+    streamifier.createReadStream(buffer).pipe(stream);
+  });
+}
+
 // Routes
 app.get(`/`, (req, res) => res.redirect(`/blog`));
 
@@ -119,13 +131,13 @@ app.get(`/blog`, async (req, res) => {
     viewData.allPosts = [];
     if (req.query.category) {
       viewData.allPosts = await blogService.getPublishedPostsByCategory(
-        req.query.category
+        req.query.category,
       );
     } else {
       viewData.allPosts = await blogService.getPublishedPosts();
     }
     viewData.allPosts.sort(
-      (a, b) => new Date(b.postDate) - new Date(a.postDate)
+      (a, b) => new Date(b.postDate) - new Date(a.postDate),
     );
     viewData.currPage = parseInt(req.query.page) || 1;
     viewData.showPagination = viewData.allPosts.length > 5;
@@ -135,7 +147,7 @@ app.get(`/blog`, async (req, res) => {
     viewData.nextPage = viewData.currPage + 1;
     viewData.currPosts = viewData.allPosts.slice(
       viewData.currPage * 5 - 5,
-      viewData.currPage * 5
+      viewData.currPage * 5,
     );
   } catch (err) {
     viewData.noPostsMessage = `No results`;
@@ -145,9 +157,7 @@ app.get(`/blog`, async (req, res) => {
     const categories = await blogService.getCategories();
     viewData.categories = categories;
     viewData.currPosts.forEach((post) => {
-      post.dataValues.category = categories.find(
-        (e) => e.id == post.dataValues.category
-      ).dataValues;
+      post.category = categories.find((e) => e.id == post.category);
     });
   } catch (err) {
     viewData.noCategoriesMessage = `No results`;
@@ -162,13 +172,13 @@ app.get(`/blog/:id`, async (req, res) => {
     viewData.allPosts = [];
     if (req.query.category) {
       viewData.allPosts = await blogService.getPublishedPostsByCategory(
-        req.query.category
+        req.query.category,
       );
     } else {
       viewData.allPosts = await blogService.getPublishedPosts();
     }
     viewData.allPosts.sort(
-      (a, b) => new Date(b.postDate) - new Date(a.postDate)
+      (a, b) => new Date(b.postDate) - new Date(a.postDate),
     );
   } catch (err) {
     // Do nothing
@@ -184,9 +194,7 @@ app.get(`/blog/:id`, async (req, res) => {
     const categories = await blogService.getCategories();
     viewData.categories = categories;
     viewData.currPosts.forEach((post) => {
-      post.dataValues.category = categories.find(
-        (e) => e.id == post.dataValues.category
-      ).dataValues;
+      post.category = categories.find((e) => e.id == post.category);
     });
   } catch (err) {
     viewData.noCategoriesMessage = `No results`;
@@ -196,6 +204,16 @@ app.get(`/blog/:id`, async (req, res) => {
 
 app.get(`/posts`, ensureLogin, async (req, res) => {
   try {
+    let error;
+    if (req.query.error == 1) {
+      error = `Couldn't find post.`;
+    }
+    if (req.query.error == 2) {
+      error = `Error updating post.`;
+    }
+    if (req.query.error == 3) {
+      error = `Error adding post.`;
+    }
     let posts = [];
     if (req.query.category) {
       posts = await blogService.getPostsByCategory(req.query.category);
@@ -206,12 +224,12 @@ app.get(`/posts`, ensureLogin, async (req, res) => {
     }
     if (posts.length > 0) {
       posts.sort((a, b) => new Date(b.postDate) - new Date(a.postDate));
-      res.render(`posts`, { data: posts });
+      res.render(`posts`, { data: posts, error: error });
     } else {
-      res.render(`posts`, { message: `No results` });
+      res.render(`posts`, { message: `No results`, error: error });
     }
   } catch (error) {
-    res.render(`posts`, { message: `No results` });
+    res.render(`posts`, { message: `No results`, error: error });
   }
 });
 
@@ -228,58 +246,74 @@ app.post(
   `/posts/add`,
   ensureLogin,
   upload.single(`featureImage`),
-  (req, res) => {
-    function processPost(imageUrl) {
-      req.body.featureImage = imageUrl;
-      blogService.addPost(req.body).then(res.redirect(`/posts`));
+  async (req, res) => {
+    try {
+      req.body.featureImage = "";
+      if (req.file) {
+        const image = await streamUpload(req.file.buffer);
+        req.body.featureImage = image.url;
+      }
+      await blogService.addPost(req.body);
+      res.redirect(`/posts`);
+    } catch (error) {
+      res.redirect(`/posts?error=3`);
     }
-
-    async function streamUpload(req) {
-      return new Promise((resolve, reject) => {
-        let stream = cloudinary.uploader.upload_stream((error, result) => {
-          if (result) {
-            resolve(result);
-          } else {
-            reject(error);
-          }
-        });
-
-        streamifier.createReadStream(req.file.buffer).pipe(stream);
-      });
-    }
-
-    async function upload(req) {
-      let result = await streamUpload(req);
-      console.log(result);
-      return result;
-    }
-
-    if (req.file) {
-      upload(req).then((uploaded) => {
-        processPost(uploaded.url);
-      });
-    } else {
-      processPost(``);
-    }
-  }
+  },
 );
 
-app.get(`/posts/:id`, ensureLogin, async (req, res) => {
+app.get(`/posts/edit/:id`, ensureLogin, async (req, res) => {
   try {
-    let posts = [];
     const post = await blogService.getPostById(req.params.id);
-    posts.push(post);
-    res.render(`posts`, { data: posts });
+    const categories = await blogService.getCategories();
+    res.render(`editPost`, { post: post, categories: categories });
   } catch (error) {
-    res.render(`posts`, { message: `No results` });
+    res.redirect(`/posts?error=1`);
+  }
+});
+
+app.post(
+  `/posts/edit/:id`,
+  ensureLogin,
+  upload.single(`featureImage`),
+  async (req, res) => {
+    try {
+      if (req.file && !req.body.removeImage) {
+        const image = await streamUpload(req.file.buffer);
+        req.body.featureImage = image.url;
+      }
+      req.body.published = req.body.published ? true : false; // published is undefined unless this is done
+      await blogService.updatePost(req.params.id, req.body);
+      res.redirect(`/posts`);
+    } catch (error) {
+      res.redirect(`/posts?error=2`);
+    }
+  },
+);
+
+app.get(`/posts/delete/:id`, ensureLogin, async (req, res) => {
+  try {
+    await blogService.deletePostById(req.params.id);
+    res.redirect(`/posts`);
+  } catch (error) {
+    res.status(500).send(`Unable to remove Post / Post not found`);
   }
 });
 
 app.get(`/categories`, ensureLogin, async (req, res) => {
   try {
+    let error;
+    if (req.query.error == 1) {
+      error = `Couldn't find category.`;
+    }
+    if (req.query.error == 2) {
+      error = `Error updating category.`;
+    }
+    if (req.query.error == 3) {
+      error = `Error adding category.`;
+    }
     const categories = await blogService.getCategories();
     if (categories.length > 0) {
-      res.render(`categories`, { data: categories });
+      res.render(`categories`, { data: categories, error: error });
     } else {
       res.render(`categories`, { message: `No results` });
     }
@@ -289,12 +323,34 @@ app.get(`/categories`, ensureLogin, async (req, res) => {
 });
 
 app.get(`/categories/add`, ensureLogin, (req, res) =>
-  res.render(`addCategory`)
+  res.render(`addCategory`),
 );
 
 app.post(`/categories/add`, ensureLogin, async (req, res) => {
-  await blogService.addCategory(req.body);
-  res.redirect(`/categories`);
+  try {
+    await blogService.addCategory(req.body);
+    res.redirect(`/categories`);
+  } catch (error) {
+    res.redirect(`/categories?error=3`);
+  }
+});
+
+app.get(`/categories/edit/:id`, ensureLogin, async (req, res) => {
+  try {
+    const category = await blogService.getCategoryById(req.params.id);
+    res.render(`editCategory`, { data: category });
+  } catch (error) {
+    res.redirect(`/categories?error=1`);
+  }
+});
+
+app.post(`/categories/edit/:id`, ensureLogin, async (req, res) => {
+  try {
+    await blogService.updateCategory(req.params.id, req.body);
+    res.redirect(`/categories`);
+  } catch (error) {
+    res.redirect(`/categories?error=2`);
+  }
 });
 
 app.get(`/categories/delete/:id`, ensureLogin, async (req, res) => {
@@ -303,15 +359,6 @@ app.get(`/categories/delete/:id`, ensureLogin, async (req, res) => {
     res.redirect(`/categories`);
   } catch (error) {
     res.status(500).send(`Unable to remove Category / Category not found`);
-  }
-});
-
-app.get(`/posts/delete/:id`, ensureLogin, async (req, res) => {
-  try {
-    await blogService.deletePostById(req.params.id);
-    res.redirect(`/posts`);
-  } catch (error) {
-    res.status(500).send(`Unable to remove Post / Post not found`);
   }
 });
 

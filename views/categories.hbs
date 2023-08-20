@@ -1,31 +1,37 @@
 <div class="prose mx-auto">
-  <div>
-    <h1>Categories</h1>
-    <a href="/categories/add"><button class="btn btn-success">Add Category</button></a>
-    <div class="overflow-x-auto">
-      <table class="table">
-        <thead>
-          <th scope="col">Category ID</th>
-          <th scope="col">Category Name</th>
-          <th></th>
-        </thead>
-        <tbody>
-          {{#each data}}
-            <tr>
-              <td>{{dataValues.id}}</td>
-              <td><a
-                  href="/blog?category={{dataValues.id}}"
-                >{{dataValues.category}}</a></td>
-              <td><a href="/categories/delete/{{dataValues.id}}"><button class="btn btn-error">Remove</button></a></td>
-            </tr>
-          {{/each}}
-        </tbody>
-      </table>
+  <h1>Categories</h1>
+  {{#if error}}
+    <div class="alert alert-error mb-4">
+      <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <span>{{error}}</span>
     </div>
-    {{#unless data}}
-      <div>
-        {{message}}
-      </div>
-    {{/unless}}
+  {{/if}}
+  <a href="/categories/add"><button class="btn btn-success">Add Category</button></a>
+  <div class="overflow-x-auto">
+    <table class="table">
+      <thead>
+        <th scope="col">Category ID</th>
+        <th scope="col">Category Name</th>
+        <th></th>
+      </thead>
+      <tbody>
+        {{#each data}}
+          <tr>
+            <td>{{id}}</td>
+            <td><a href="/blog?category={{id}}">{{category}}</a></td>
+            <td><a href="/categories/edit/{{id}}"><button class="btn btn-info">Edit</button></a></td>
+            <td><a href="/categories/delete/{{id}}"><button class="btn btn-error">Delete</button></a></td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
   </div>
+  {{#unless data}}
+    <div>
+      {{message}}
+    </div>
+  {{/unless}}
 </div>
