@@ -34,12 +34,14 @@ app.engine(
         }">${options.fn(this)}</a>`;
       },
       categoryLink: (categoryObj) => {
-        return `<a href="/blog?category=${categoryObj.dataValues.id}"
+        if (categoryObj) {
+          return `<a href="/blog?category=${categoryObj.dataValues.id}"
         ${
           categoryObj.dataValues.id == app.locals.viewingCategory
             ? 'class="active"'
             : ""
         }>${categoryObj.dataValues.category}</a>`;
+        }
       },
       equal: function (lvalue, rvalue, options) {
         if (arguments.length < 3) {
@@ -52,21 +54,21 @@ app.engine(
         }
       },
       safeHTML: (context) => {
-        if (context === null || context === "") {
-          return null;
-        } else {
+        if (context) {
           context = context.toString();
+          return context.replace(/(<([^>]+)>)/gi, "");
         }
-        return context.replace(/(<([^>]+)>)/gi, "");
       },
       formatDate: (dateObj) => {
-        const year = dateObj.getFullYear();
-        const month = dateObj.toLocaleString("default", { month: "long" });
-        const day = dateObj.getDate().toString();
-        return `${day} ${month}, ${year}`;
+        if (dateObj) {
+          const year = dateObj.getFullYear();
+          const month = dateObj.toLocaleString("default", { month: "long" });
+          const day = dateObj.getDate().toString();
+          return `${day} ${month}, ${year}`;
+        }
       },
     },
-  }),
+  })
 );
 app.set(`view engine`, `.hbs`);
 
@@ -79,10 +81,9 @@ app.use(
     secret: process.env.COOKIE_SECRET,
     duration: 60 * 60 * 1000,
     activeDuration: 15 * 60 * 1000,
-  }),
+  })
 );
-
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   res.locals.session = req.session;
   next();
 });
@@ -112,85 +113,84 @@ app.get(`/`, (req, res) => res.redirect(`/blog`));
 app.get(`/about`, (req, res) => res.render(`about`));
 
 app.get(`/blog`, async (req, res) => {
-  // Declare an object to store properties for the view
   let viewData = {};
+  // Add posts and pagination data to viewData
   try {
-    // declare empty array to hold `post` objects
-    let posts = [];
-    // if there's a `category` query, filter the returned posts by category
+    viewData.allPosts = [];
     if (req.query.category) {
-      // Obtain the published `posts` by category
-      posts = await blogService.getPublishedPostsByCategory(req.query.category);
+      viewData.allPosts = await blogService.getPublishedPostsByCategory(
+        req.query.category
+      );
     } else {
-      // Obtain the published `posts`
-      posts = await blogService.getPublishedPosts();
+      viewData.allPosts = await blogService.getPublishedPosts();
     }
-    // sort the published posts by postDate
-    posts.sort((a, b) => new Date(b.postDate) - new Date(a.postDate));
-    // get the latest post from the front of the list (element 0)
-    const post = posts[0];
-    // store the `posts` and `post` data in the viewData object (to be passed to the view)
-    viewData.posts = posts;
-    viewData.post = post;
+    viewData.allPosts.sort(
+      (a, b) => new Date(b.postDate) - new Date(a.postDate)
+    );
+    viewData.currPage = parseInt(req.query.page) || 1;
+    viewData.showPagination = viewData.allPosts.length > 5;
+    viewData.showPrevPageBtn = viewData.currPage > 1;
+    viewData.showNextPageBtn = viewData.currPage < viewData.allPosts.length / 5;
+    viewData.prevPage = viewData.currPage - 1;
+    viewData.nextPage = viewData.currPage + 1;
+    viewData.currPosts = viewData.allPosts.slice(
+      viewData.currPage * 5 - 5,
+      viewData.currPage * 5
+    );
   } catch (err) {
-    viewData.message = `No results`;
+    viewData.noPostsMessage = `No results`;
   }
+  // Add categories to viewData
   try {
-    // Obtain the full list of `categories`
     const categories = await blogService.getCategories();
-    // store the `categories` data in the viewData object (to be passed to the view)
     viewData.categories = categories;
-    // replace the post's category value with the category object
-    viewData.post.dataValues.category = categories.find(
-      (e) => e.id == viewData.post.dataValues.category,
-    ).dataValues;
+    viewData.currPosts.forEach((post) => {
+      post.dataValues.category = categories.find(
+        (e) => e.id == post.dataValues.category
+      ).dataValues;
+    });
   } catch (err) {
-    viewData.categoriesMessage = `No results`;
+    viewData.noCategoriesMessage = `No results`;
   }
-  // render the `blog` view with all of the data (viewData)
   res.render(`blog`, { data: viewData });
 });
 
 app.get(`/blog/:id`, async (req, res) => {
-  // Declare an object to store properties for the view
   let viewData = {};
+  // Add all posts to viewData
   try {
-    // declare empty array to hold `post` objects
-    let posts = [];
-    // if there's a `category` query, filter the returned posts by category
+    viewData.allPosts = [];
     if (req.query.category) {
-      // Obtain the published `posts` by category
-      posts = await blogService.getPublishedPostsByCategory(req.query.category);
+      viewData.allPosts = await blogService.getPublishedPostsByCategory(
+        req.query.category
+      );
     } else {
-      // Obtain the published `posts`
-      posts = await blogService.getPublishedPosts();
+      viewData.allPosts = await blogService.getPublishedPosts();
     }
-    // sort the published posts by postDate
-    posts.sort((a, b) => new Date(b.postDate) - new Date(a.postDate));
-    // store the `posts` and `post` data in the viewData object (to be passed to the view)
-    viewData.posts = posts;
+    viewData.allPosts.sort(
+      (a, b) => new Date(b.postDate) - new Date(a.postDate)
+    );
   } catch (err) {
-    viewData.message = `No results`;
+    // Do nothing
   }
+  // Add post matching id query to viewData
   try {
-    // Obtain the post by `id`
-    viewData.post = await blogService.getPostById(req.params.id);
+    viewData.currPosts = [await blogService.getPostById(req.params.id)];
   } catch (err) {
-    viewData.message = `No results`;
+    viewData.noPostsMessage = `No results`;
   }
+  // Add categories to viewData
   try {
-    // Obtain the full list of `categories`
     const categories = await blogService.getCategories();
-    // store the `categories` data in the viewData object (to be passed to the view)
     viewData.categories = categories;
-    // replace the post's category value with the category object
-    viewData.post.dataValues.category = categories.find(
-      (e) => e.id == viewData.post.dataValues.category,
-    ).dataValues;
+    viewData.currPosts.forEach((post) => {
+      post.dataValues.category = categories.find(
+        (e) => e.id == post.dataValues.category
+      ).dataValues;
+    });
   } catch (err) {
-    viewData.categoriesMessage = `No results`;
+    viewData.noCategoriesMessage = `No results`;
   }
-  // render the `blog` view with all of the data (viewData)
   res.render(`blog`, { data: viewData });
 });
 
@@ -261,7 +261,7 @@ app.post(
     } else {
       processPost(``);
     }
-  },
+  }
 );
 
 app.get(`/posts/:id`, ensureLogin, async (req, res) => {
@@ -289,7 +289,7 @@ app.get(`/categories`, ensureLogin, async (req, res) => {
 });
 
 app.get(`/categories/add`, ensureLogin, (req, res) =>
-  res.render(`addCategory`),
+  res.render(`addCategory`)
 );
 
 app.post(`/categories/add`, ensureLogin, async (req, res) => {
@@ -302,7 +302,7 @@ app.get(`/categories/delete/:id`, ensureLogin, async (req, res) => {
     await blogService.deleteCategoryById(req.params.id);
     res.redirect(`/categories`);
   } catch (error) {
-    res.status(500).send(`Unable to Remove Category / Category not found`);
+    res.status(500).send(`Unable to remove Category / Category not found`);
   }
 });
 
@@ -311,7 +311,7 @@ app.get(`/posts/delete/:id`, ensureLogin, async (req, res) => {
     await blogService.deletePostById(req.params.id);
     res.redirect(`/posts`);
   } catch (error) {
-    res.status(500).send(`Unable to Remove Post / Post not found`);
+    res.status(500).send(`Unable to remove Post / Post not found`);
   }
 });
 

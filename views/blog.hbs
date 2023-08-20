@@ -1,41 +1,88 @@
 <div class="flex flex-wrap justify-center gap-4">
-	<div class="card sm:basis-4/5 max-w-screen-md shadow-xl">
-		{{#if data.post}}
-			{{#if data.post.dataValues.featureImage}}
-				<figure><img src="{{data.post.dataValues.featureImage}}" alt="Featured image" class="object-cover" />
-				</figure>
-			{{/if}}
-		{{/if}}
-		<div class="card-body prose">
-			<h2 class="card-title">
-				{{#if data.post}}
-					{{#safeHTML data.post.dataValues.title}}{{/safeHTML}}
-				{{else}}No posts found!
+	<!--Posts, Pagination-->
+	<div class="flex flex-col items-center gap-4 sm:basis-4/5 max-w-screen-md">
+		{{#each data.currPosts}}
+			<div class="card shadow-xl">
+				{{#if dataValues.featureImage}}
+					<figure>
+						<img src="{{dataValues.featureImage}}" alt="Featured image" class="object-cover" />
+					</figure>
 				{{/if}}
-			</h2>
-			<p>
-				{{#if data.post}}
-					{{#safeHTML data.post.dataValues.body}}{{/safeHTML}}
-				{{else}}{{data.message}}
-				{{/if}}
-			</p>
+				<div class="card-body prose">
+					<h2 class="card-title">{{#safeHTML dataValues.title}}{{/safeHTML}}</h2>
+					<p>{{#safeHTML dataValues.body}}{{/safeHTML}}</p>
+					<ul>
+						<li>
+							Category: <a href="/blog?category={{dataValues.category.id}}">{{dataValues.category.category}}</a>
+						</li>
+						<li>Last Updated: {{#formatDate dataValues.postDate}}{{/formatDate}}</li>
+					</ul>
+				</div>
+			</div>
+		{{else}}
+			<div class="card shadow-xl">
+				<div class="card-body prose">
+					<h2 class="card-title">No posts found!</h2>
+					<p>{{data.noPostsMessage}}</p>
+				</div>
+			</div>
+		{{/each}}
+		<!--
+		<div class="card sm:basis-4/5 max-w-screen-md shadow-xl">
 			{{#if data.post}}
-				<ul>
-					<li>Category: <a
-							href="/blog?category={{data.post.dataValues.category.id}}">{{data.post.dataValues.category.category}}</a>
-					</li>
-					<li>Last Updated: {{#formatDate data.post.dataValues.postDate}}{{/formatDate}}</li>
-				</ul>
+				{{#if data.post.dataValues.featureImage}}
+					<figure><img src="{{data.post.dataValues.featureImage}}" alt="Featured image" class="object-cover" />
+					</figure>
+				{{/if}}
+			{{/if}}
+			<div class="card-body prose">
+				<h2 class="card-title">
+					{{#if data.post}}
+						{{#safeHTML data.post.dataValues.title}}{{/safeHTML}}
+					{{else}}No posts found!
+					{{/if}}
+				</h2>
+				<p>
+					{{#if data.post}}
+						{{#safeHTML data.post.dataValues.body}}{{/safeHTML}}
+					{{else}}{{data.message}}
+					{{/if}}
+				</p>
+				{{#if data.post}}
+					<ul>
+						<li>Category: <a
+								href="/blog?category={{data.post.dataValues.category.id}}">{{data.post.dataValues.category.category}}</a>
+						</li>
+						<li>Last Updated: {{#formatDate data.post.dataValues.postDate}}{{/formatDate}}</li>
+					</ul>
+				{{/if}}
+			</div>
+		</div>
+		-->
+		{{#if data.showPagination}}
+		<div class="join">
+			{{#if data.showPrevPageBtn}}
+				<a href="/blog?page={{data.prevPage}}"><button class="join-item btn">«</button></a>
+			{{/if}}
+			<button class="join-item btn">Page {{data.currPage}}</button>
+			{{#if data.showNextPageBtn}}
+			<a href="/blog?page={{data.nextPage}}"><button class="join-item btn">»</button></a>
 			{{/if}}
 		</div>
+		{{/if}}
 	</div>
+	<!--Posts List, Categories List-->
 	<div class="flex sm:basis-1/5 sm:flex-col">
-		{{#if data.posts}}
+		{{#if data.allPosts}}
 			<ul class="menu rounded-box">
 				<li class="menu-title">Posts</li>
-				{{#each data.posts}}
+				{{#each data.allPosts}}
 					<li>
+						{{#if ../viewingCategory}}
 						<a href="/blog/{{dataValues.id}}?category={{../viewingCategory}}">{{dataValues.title}}</a>
+						{{else}}
+						<a href="/blog/{{dataValues.id}}">{{dataValues.title}}</a>
+						{{/if}}
 					</li>
 				{{/each}}
 			</ul>
