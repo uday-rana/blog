@@ -1,9 +1,9 @@
 <div class="prose mx-auto">
   <a href="/categories"><button class="btn mb-4">Back</button></a>
-  <h1>Edit Category</h1>
+  <h1>Update Category</h1>
   <form action="/categories/edit/{{data.id}}" method="post">
-    <div>
-      <label for="category" class="label">Category</label>
+    <div class="form-control">
+      <label for="category" class="label"><span class="label-text">Category</span></label>
       <input
         type="text"
         name="category"
@@ -14,6 +14,6 @@
         autofocus
       />
     </div>
-    <button type="submit" class="btn btn-success mt-4">Update Category</button>
+    <button type="submit" class="btn btn-success mt-4">Update</button>
   </form>
 </div>

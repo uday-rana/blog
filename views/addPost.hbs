@@ -1,54 +1,47 @@
 <div class="prose mx-auto">
   <a href="/posts"><button class="btn mb-4">Back</button></a>
-  <h1>Add Post</h1>
+  <h1>Create Post</h1>
   <form action="/posts/add" method="post" enctype="multipart/form-data">
-    <label for="featureImage" class="label">Featured Image</label>
-    <input
-      type="file"
-      name="featureImage"
-      id="featureImage"
-      class="file-input"
-    />
-    <label for="title" class="label">Title</label>
-    <input
-      type="text"
-      id="title"
-      name="title"
-      placeholder="Title"
-      class="input input-bordered w-full"
-    />
-    <label for="body" class="label">Body</label>
-    <textarea
-      name="body"
-      id="body"
-      rows="6"
-      placeholder="Body"
-      class="textarea textarea-bordered w-full"
-    ></textarea>
-    <div class="flex">
+    <div class="form-control">
+      <label for="featureImage" class="label">
+        <span class="label-text mr-4">Image</span>
+        <input type="file" name="featureImage" id="featureImage" class="file-input" />
+      </label>
+    </div>
+    <div class="form-control">
+      <label for="title" class="label">
+        <span class="label-text">Title</span>
+      </label>
+      <input type="text" id="title" name="title" placeholder="Title" class="input input-bordered w-full" />
+    </div>
+    <div class="form-control">
+      <label for="body" class="label">
+        <span class="label-text">Body</span>
+      </label>
+      <textarea name="body" id="body" rows="6" placeholder="Body"
+        class="textarea textarea-bordered w-full"></textarea>
+    </div>
+    <div class="flex items-center">
       <div class="basis-1/2">
         {{#if categories}}
-          <label for="category" class="label">Category</label>
+        <div class="form-control">
+          <label for="category" class="label"><span class="label-text">Category</span></label>
           <select name="category" id="category" class="select">
             {{#each categories}}
               <option value="{{id}}">{{category}}</option>
             {{/each}}
           </select>
+        </div>
         {{else}}
           <div>No Categories</div>
         {{/if}}
       </div>
-      <div class="basis-1/2">
-        <label for="published" class="label">Published</label>
-        <input
-          type="checkbox"
-          role="switch"
-          name="published"
-          id="published"
-          class="checkbox"
-        />
+      <div class="form-control basis-1/2">
+        <label for="published" class="label"><span class="label-text">Published</span>
+        <input type="checkbox" role="switch" name="published" id="published" class="checkbox" />
+        </label>
       </div>
     </div>
-    <button type="submit" class="btn btn-success mt-4">Add Post</button>
+    <button type="submit" class="btn btn-success mt-4">Create</button>
   </form>
 </div>

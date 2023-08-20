@@ -12,14 +12,16 @@
 			</div>
 		{{/if}}
 		<form action="/login" method="post">
-			<div>
-				<label for="userName" class="label">Username</label>
+				<div class="form-control">
+				<label for="userName" class="label"><span class="label-text">Username</span></label>
 				<input type="text" name="userName" id="userName" placeholder="Username" {{#if
 					userName}}value="{{userName}}" {{/if}} class="input input-bordered w-full" required />
-				<label for="password" class="label">Password</label>
+				</div>
+				<div class="form-control">
+				<label for="password" class="label"><span class="label-text">Password</span></label>
 				<input type="password" name="password" id="password" placeholder="Password"
 					class="input input-bordered w-full" required>
-			</div>
+				</div>
 			<button type="submit" class="btn mt-4">Log In</button>
 		</form>
 	</div>
