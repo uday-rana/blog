@@ -13,8 +13,8 @@
       <div class="flex-1">
         <a class="btn btn-ghost normal-case text-xl" href="/">Uday Rana</a>
       </div>
-      {{!-- Dropdown for small screens --}}
-      <div class="navbar-end sm:hidden">
+      <!-- Dropdown for small screens -->
+      <div class="navbar-end md:hidden">
         <ul class="menu menu-horizontal px-1">
           <li>
             <details class="dropdown dropdown-end">
@@ -45,8 +45,8 @@
         </ul>
       </div>
 
-      {{!-- Horizontal menu for larger screens --}}
-      <div class="navbar-end hidden sm:flex">
+      <!-- Horizontal menu for larger screens -->
+      <div class="navbar-end w-full hidden md:flex">
         <ul class="menu menu-horizontal px-1">
           <li>{{#navLink "/blog"}}Blog{{/navLink}}</li>
           <li>{{#navLink "/about"}}About{{/navLink}}</li>
@@ -76,6 +76,7 @@
     <footer class="footer sticky top-[100vh] p-10 bg-neutral text-neutral-content">
       <div><p1>Made by Uday Rana</p></div>
     </footer>
+    <script src="/js/theme.js"></script>
   </body>
 
 </html>
