@@ -13,7 +13,7 @@
   - [x] Remove bootstrap CDN link and classes (Use this regex to search & replace classes: `/class="[^"]*"/`)
   - [x] Add `<link>` to `/css/main.css` instead of `nottailwind.css` in main.hbs
   - [x] Add component classes to .hbs files
+- [x] Add edit post functionality
+- [x] Show 5 blog posts at a time on /blog route with pagination to go back/forward
 - [ ] Make Posts list in `/blog` show active post
-- [ ] Add edit post functionality
 - [ ] Confirm post deletion
-- [ ] Show 5 blog posts at a time on /blog route with pagination to go back/forward
