@@ -24,7 +24,7 @@ let User;
 const authService = {
   initialize: async () => {
     try {
-      await mongoose.connect(process.env.MONGODB_LINK);
+      await mongoose.connect(process.env.USERS_DATABASE_URL);
       User = mongoose.model("users", userSchema);
     } catch (error) {
       console.error(error);
