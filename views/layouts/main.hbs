@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Blog" />
     <link rel="stylesheet" href="/css/main.css" />
-    <title>Uday Rana&apos;s Blog</title>
+    <title>Uday Rana</title>
   </head>
 
   <body class="min-h-screen">
@@ -47,14 +47,14 @@
 
       <!-- Horizontal menu for larger screens -->
       <div class="navbar-end w-full hidden md:flex">
-        <ul class="menu menu-horizontal px-1">
-          <li>{{#navLink "/blog"}}Blog{{/navLink}}</li>
-          <li>{{#navLink "/about"}}About{{/navLink}}</li>
+        <ul class="menu menu-horizontal">
+          <li class="px-1">{{#navLink "/blog"}}Blog{{/navLink}}</li>
+          <li class="px-1">{{#navLink "/about"}}About{{/navLink}}</li>
           <div class="divider divider-horizontal mx-0"></div>
           {{#if session.user}}
-          <li>{{#navLink "/posts"}}Posts{{/navLink}}</li>
-          <li>{{#navLink "/categories"}}Categories{{/navLink}}</li>
-          <li>
+          <li class="px-1">{{#navLink "/posts"}}Posts{{/navLink}}</li>
+          <li class="px-1">{{#navLink "/categories"}}Categories{{/navLink}}</li>
+          <li class="px-1">
             <details class="dropdown dropdown-end">
               <summary>{{session.user.userName}}</summary>
               <ul class="dropdown-content z-[1] p-2 shadow menu rounded-box">
@@ -64,8 +64,8 @@
             </details>
           </li>
           {{else}}
-          <li>{{#navLink "/register"}}Register{{/navLink}}</li>
-          <li>{{#navLink "/login"}}Login{{/navLink}}</li>
+          <li class="px-1">{{#navLink "/register"}}Register{{/navLink}}</li>
+          <li class="px-1">{{#navLink "/login"}}Login{{/navLink}}</li>
           {{/if}}
         </ul>
       </div>

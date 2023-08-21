@@ -1,11 +1,11 @@
 <div class="flex flex-wrap justify-center gap-4">
 	<!--Posts, Pagination-->
-	<div class="flex flex-col items-center gap-4 sm:basis-4/5 max-w-screen-md">
+	<div class="flex flex-col items-center gap-2 sm:basis-4/5 max-w-screen-md">
 		{{#each data.currPosts}}
 			<div class="w-full card shadow-xl">
-				{{#if featureImage}}
+				{{#if imageUrl}}
 					<figure>
-						<img src="{{featureImage}}" alt="Featured image" class="object-cover" />
+						<img src="{{imageUrl}}" alt="Featured image" class="object-cover" />
 					</figure>
 				{{/if}}
 				<div class="card-body prose">
@@ -13,7 +13,7 @@
 					<p>{{#safeHTML body}}{{/safeHTML}}</p>
 					<ul>
 						<li>
-							Category: <a href="/blog?category={{category.id}}">{{category.category}}</a>
+							Category: <a href="/blog?category={{category.id}}">{{category.name}}</a>
 						</li>
 						<li>Last Updated: {{#formatDate postDate}}{{/formatDate}}</li>
 					</ul>
