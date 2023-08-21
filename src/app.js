@@ -23,29 +23,26 @@ cloudinary.config({
 const hbs = ExpressHandlebars.create({
   extname: `.hbs`,
   helpers: {
-    navLink: (url, options) => {
-      const isActive =
-        url.split(`/`)[1] == app.locals.activeRoute.split(`/`)[1];
+    postLink: (post) => {
+      const activeUrl = app.locals.path.split(`/`);
+      const activeCategory = app.locals.viewingCategory;
+      const postUrl = activeCategory
+        ? `/blog/${post.id}?category=${activeCategory}`
+        : `/blog/${post.id}`;
+      const isActive = activeUrl.length > 2 && post.id == activeUrl[2];
       const activeClass = isActive ? 'class="active"' : "";
-      const result = `<a href="${url}"${activeClass}">${options.fn(this)}</a>`;
-      return result;
+      return `<a href="${postUrl}" ${activeClass}>${post.title}</a>`;
+    },
+    navLink: (url, options) => {
+      const isActive = url.split(`/`)[1] == app.locals.path.split(`/`)[1];
+      const activeClass = isActive ? 'class="active"' : "";
+      return `<a href="${url}" ${activeClass}>${options.fn(this)}</a>`;
     },
     categoryLink: (category) => {
-      const url = `/blog?category=${category.id}`;
+      const categoryUrl = `/blog?category=${category.id}`;
       const isActive = category.id == app.locals.viewingCategory;
       const activeClass = isActive ? 'class="active"' : "";
-      const result = `<a href="${url}"${activeClass}>${category.name}</a>`;
-      return result;
-    },
-    equal: function (lvalue, rvalue, options) {
-      if (arguments.length < 3) {
-        throw new Error(`Handlebars Helper "equal" needs 2 parameters`);
-      }
-      if (lvalue != rvalue) {
-        return options.inverse(this);
-      } else {
-        return options.fn(this);
-      }
+      return `<a href="${categoryUrl}" ${activeClass}>${category.name}</a>`;
     },
     safeHTML: (context) => {
       if (context) {
@@ -83,12 +80,7 @@ app.use((req, res, next) => {
   next();
 });
 app.use((req, res, next) => {
-  const route = req.path.substring(1);
-  app.locals.activeRoute = `/${
-    isNaN(route.split(`/`)[1])
-      ? route.replace(/\/(?!.*)/, ``)
-      : route.replace(/\/(.*)/, ``)
-  }`;
+  app.locals.path = req.path;
   app.locals.viewingCategory = req.query.category;
   next();
 });
@@ -101,6 +93,8 @@ function ensureLogin(req, res, next) {
     next();
   }
 }
+
+// Image upload function
 async function streamUpload(buffer) {
   return new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream((error, result) => {
@@ -205,16 +199,7 @@ app.get(`/posts`, ensureLogin, async (req, res) => {
   try {
     let error;
     if (req.query.error == 1) {
-      error = `Couldn't find post.`;
-    }
-    if (req.query.error == 2) {
-      error = `Error updating post.`;
-    }
-    if (req.query.error == 3) {
-      error = `Error adding post.`;
-    }
-    if (req.query.error == 4) {
-      error = `Error deleting post.`;
+      error = `An error occurred.`;
     }
     let posts = [];
     if (req.query.category) {
@@ -233,7 +218,7 @@ app.get(`/posts`, ensureLogin, async (req, res) => {
         post.published =
           post.published.charAt(0).toUpperCase() + post.published.slice(1);
       });
-      res.render(`posts`, { data: posts, error: error });
+      res.render(`posts`, { posts: posts, error: error });
     } else {
       res.render(`posts`, { message: `No results`, error: error });
     }
@@ -273,7 +258,7 @@ app.post(
       await blogService.posts.create(req.body);
       res.redirect(`/posts`);
     } catch (error) {
-      res.redirect(`/posts?error=3`);
+      res.redirect(`/posts?error=1`);
     }
   },
 );
@@ -309,7 +294,7 @@ app.post(
       await blogService.posts.updateById(parseInt(req.params.id), req.body);
       res.redirect(`/posts`);
     } catch (error) {
-      res.redirect(`/posts?error=2`);
+      res.redirect(`/posts?error=1`);
     }
   },
 );
@@ -317,18 +302,18 @@ app.post(
 app.get(`/posts/delete/:id`, ensureLogin, async (req, res) => {
   try {
     const post = await blogService.posts.getById(parseInt(req.params.id));
-    res.render(`deletePost`, { post: post });
+    res.render(`postDelete`, { post: post });
   } catch (error) {
-    res.redirect(`/posts?error=4`);
+    res.redirect(`/posts?error=1`);
   }
 });
 
-app.delete(`/posts/delete/:id`, ensureLogin, async (req, res) => {
+app.post(`/posts/delete/:id`, ensureLogin, async (req, res) => {
   try {
     await blogService.posts.deleteById(parseInt(req.params.id));
     res.redirect(`/posts`);
   } catch (error) {
-    res.redirect(`/posts?error=4`);
+    res.redirect(`/posts?error=1`);
   }
 });
 
@@ -336,21 +321,12 @@ app.get(`/categories`, ensureLogin, async (req, res) => {
   try {
     let error;
     if (req.query.error == 1) {
-      error = `Couldn't find category.`;
-    }
-    if (req.query.error == 2) {
-      error = `Error updating category.`;
-    }
-    if (req.query.error == 3) {
-      error = `Error adding category.`;
-    }
-    if (req.query.error == 4) {
-      error = `Error deleting category.`;
+      error = `An error occurred.`;
     }
     const categories = await blogService.categories.getAll();
     if (categories.length > 0) {
       categories.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
-      res.render(`categories`, { data: categories, error: error });
+      res.render(`categories`, { categories: categories, error: error });
     } else {
       res.render(`categories`, { message: `No results` });
     }
@@ -373,7 +349,7 @@ app.post(`/categories/add`, ensureLogin, async (req, res) => {
     await blogService.categories.create(req.body);
     res.redirect(`/categories`);
   } catch (error) {
-    res.redirect(`/categories?error=3`);
+    res.redirect(`/categories?error=1`);
   }
 });
 
@@ -382,7 +358,7 @@ app.get(`/categories/edit/:id`, ensureLogin, async (req, res) => {
     const category = await blogService.categories.getById(
       parseInt(req.params.id),
     );
-    res.render(`categoryEdit`, { data: category });
+    res.render(`categoryEdit`, { category: category });
   } catch (error) {
     res.redirect(`/categories?error=1`);
   }
@@ -398,16 +374,27 @@ app.post(`/categories/edit/:id`, ensureLogin, async (req, res) => {
     await blogService.categories.updateById(parseInt(req.params.id), req.body);
     res.redirect(`/categories`);
   } catch (error) {
-    res.redirect(`/categories?error=2`);
+    res.redirect(`/categories?error=1`);
   }
 });
 
 app.get(`/categories/delete/:id`, ensureLogin, async (req, res) => {
   try {
+    const category = await blogService.categories.getById(
+      parseInt(req.params.id),
+    );
+    res.render(`categoryDelete`, { category: category });
+  } catch (error) {
+    res.redirect(`/categories?error=1`);
+  }
+});
+
+app.post(`/categories/delete/:id`, ensureLogin, async (req, res) => {
+  try {
     await blogService.categories.deleteById(parseInt(req.params.id));
     res.redirect(`/categories`);
   } catch (error) {
-    res.status(500).send(`Unable to remove Category / Category not found`);
+    res.redirect(`/categories?error=1`);
   }
 });
 

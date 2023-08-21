@@ -18,7 +18,7 @@
         <th></th>
       </thead>
       <tbody>
-        {{#each data}}
+        {{#each posts}}
           <tr>
             <td>{{id}}</td>
             <td><a href="/blog/{{id}}">{{title}}</a></td>
@@ -34,7 +34,7 @@
       </tbody>
     </table>
   </div>
-  {{#unless data}}
+  {{#unless posts}}
     <div>
       {{message}}
     </div>

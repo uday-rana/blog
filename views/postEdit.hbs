@@ -1,5 +1,5 @@
 <div class="prose mx-auto">
-  <a href="/posts"><button class="btn mb-4">Back</button></a>
+  <a href="/posts"><button class="btn btn-neutral mb-4">Back</button></a>
   <h1>Edit Post</h1>
   {{#if post.imageUrl}}
     <img src="{{post.imageUrl}}" alt="Featured Image">
@@ -51,7 +51,7 @@
       </div>
       <div class="form-control basis-1/2">
         <label for="published" class="label"><span class="label-text">Published</span>
-          <input type="checkbox" role="switch" name="published" id="published" class="checkbox" />
+          <input type="checkbox" role="switch" name="published" id="published" class="checkbox" {{#if post.published }}checked{{/if}}/>
         </label>
       </div>
     </div>

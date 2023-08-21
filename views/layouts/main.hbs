@@ -48,13 +48,13 @@
       <!-- Horizontal menu for larger screens -->
       <div class="navbar-end w-full hidden md:flex">
         <ul class="menu menu-horizontal">
-          <li class="px-1">{{#navLink "/blog"}}Blog{{/navLink}}</li>
-          <li class="px-1">{{#navLink "/about"}}About{{/navLink}}</li>
+          <li class="mx-1">{{#navLink "/blog"}}Blog{{/navLink}}</li>
+          <li class="mx-1">{{#navLink "/about"}}About{{/navLink}}</li>
           <div class="divider divider-horizontal mx-0"></div>
           {{#if session.user}}
-          <li class="px-1">{{#navLink "/posts"}}Posts{{/navLink}}</li>
-          <li class="px-1">{{#navLink "/categories"}}Categories{{/navLink}}</li>
-          <li class="px-1">
+          <li class="mx-1">{{#navLink "/posts"}}Posts{{/navLink}}</li>
+          <li class="mx-1">{{#navLink "/categories"}}Categories{{/navLink}}</li>
+          <li class="mx-1">
             <details class="dropdown dropdown-end">
               <summary>{{session.user.userName}}</summary>
               <ul class="dropdown-content z-[1] p-2 shadow menu rounded-box">
@@ -64,8 +64,8 @@
             </details>
           </li>
           {{else}}
-          <li class="px-1">{{#navLink "/register"}}Register{{/navLink}}</li>
-          <li class="px-1">{{#navLink "/login"}}Login{{/navLink}}</li>
+          <li class="mx-1">{{#navLink "/register"}}Register{{/navLink}}</li>
+          <li class="mx-1">{{#navLink "/login"}}Login{{/navLink}}</li>
           {{/if}}
         </ul>
       </div>

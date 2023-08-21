@@ -1,0 +1,12 @@
+<div class="prose mx-auto">
+	<a href="/categories"><button class="btn mb-4">Back</button></a>
+	<h1>Delete Category</h1>
+	<form action="/categories/delete/{{category.id}}" method="post">
+		<div class="form-control">
+			<label for="name" class="label"><span class="label-text">Category</span></label>
+			<input type="text" name="name" id="name" class="input input-bordered w-full" value="{{category.name}}"
+				disabled />
+		</div>
+		<button type="submit" class="btn btn-error mt-4">Delete</button>
+	</form>
+</div>

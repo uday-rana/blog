@@ -1,69 +1,63 @@
 <div class="flex flex-wrap justify-center gap-4">
-	<!--Posts, Pagination-->
-	<div class="flex flex-col items-center gap-2 sm:basis-4/5 max-w-screen-md">
-		{{#each data.currPosts}}
-			<div class="w-full card shadow-xl">
-				{{#if imageUrl}}
-					<figure>
-						<img src="{{imageUrl}}" alt="Featured image" class="object-cover" />
-					</figure>
-				{{/if}}
-				<div class="card-body prose">
-					<h2 class="card-title">{{#safeHTML title}}{{/safeHTML}}</h2>
-					<p>{{#safeHTML body}}{{/safeHTML}}</p>
-					<ul>
-						<li>
-							Category: <a href="/blog?category={{category.id}}">{{category.name}}</a>
-						</li>
-						<li>Last Updated: {{#formatDate postDate}}{{/formatDate}}</li>
-					</ul>
-				</div>
-			</div>
-		{{else}}
-			<div class="w-full card shadow-xl">
-				<div class="card-body prose">
-					<h2 class="card-title">No posts found!</h2>
-					<p>{{data.noPostsMessage}}</p>
-				</div>
-			</div>
-		{{/each}}
-		{{#if data.showPagination}}
-		<div class="join">
-			{{#if data.showPrevPageBtn}}
-				<a href="/blog?page={{data.prevPage}}"><button class="join-item btn">«</button></a>
-			{{/if}}
-			<button class="join-item btn">Page {{data.currPage}}</button>
-			{{#if data.showNextPageBtn}}
-			<a href="/blog?page={{data.nextPage}}"><button class="join-item btn">»</button></a>
-			{{/if}}
-		</div>
-		{{/if}}
-	</div>
-	<!--Posts List, Categories List-->
-	<div class="flex sm:basis-1/5 md:flex-col">
-		{{#if data.allPosts}}
-			<ul class="menu rounded-box">
-				<li class="menu-title">Posts</li>
-				{{#each data.allPosts}}
-					<li>
-						{{#if ../viewingCategory}}
-						<a href="/blog/{{id}}?category={{../viewingCategory}}">{{title}}</a>
-						{{else}}
-						<a href="/blog/{{id}}">{{title}}</a>
-						{{/if}}
-					</li>
-				{{/each}}
-			</ul>
-		{{/if}}
-		{{#if data.categories}}
-			<ul class="menu rounded-box">
-				<li class="menu-title">Categories</li>
-				{{#each data.categories}}
-					<li>
-						{{#categoryLink this}}{{/categoryLink}}
-					</li>
-				{{/each}}
-			</ul>
-		{{/if}}
-	</div>
+  <!--Posts, Pagination-->
+  <div class="flex flex-col items-center gap-2 sm:basis-4/5 max-w-screen-md">
+    {{#each data.currPosts}}
+      <div class="w-full card shadow-xl">
+        {{#if imageUrl}}
+          <figure>
+            <img src="{{imageUrl}}" alt="Featured image" class="object-cover" />
+          </figure>
+        {{/if}}
+        <div class="card-body prose">
+          <h2 class="card-title">{{#safeHTML title}}{{/safeHTML}}</h2>
+          <p>{{#safeHTML body}}{{/safeHTML}}</p>
+          <ul>
+            <li>
+              Category: <a href="/blog?category={{category.id}}">{{category.name}}</a>
+            </li>
+            <li>Last Updated: {{#formatDate postDate}}{{/formatDate}}</li>
+          </ul>
+        </div>
+      </div>
+    {{else}}
+      <div class="w-full card shadow-xl">
+        <div class="card-body prose">
+          <h2 class="card-title">No posts found!</h2>
+          <p>{{data.noPostsMessage}}</p>
+        </div>
+      </div>
+    {{/each}}
+    {{#if data.showPagination}}
+      <div class="join">
+        {{#if data.showPrevPageBtn}}
+          <a href="/blog?page={{data.prevPage}}"><button class="join-item btn btn-primary">«</button></a>
+        {{/if}}
+        <button class="join-item btn btn-primary">Page {{data.currPage}}</button>
+        {{#if data.showNextPageBtn}}
+          <a href="/blog?page={{data.nextPage}}"><button class="join-item btn btn-primary">»</button></a>
+        {{/if}}
+      </div>
+    {{/if}}
+  </div>
+  <!--Posts List, Categories List-->
+  <div class="flex sm:basis-1/5 md:flex-col">
+    {{#if data.allPosts}}
+      <ul class="menu rounded-box">
+        <li class="menu-title">Posts</li>
+        {{#each data.allPosts}}
+          <li class="my-1">{{{postLink this}}}</li>
+        {{/each}}
+      </ul>
+    {{/if}}
+    {{#if data.categories}}
+      <ul class="menu rounded-box">
+        <li class="menu-title">Categories</li>
+        {{#each data.categories}}
+          <li class="my-1">
+            {{{categoryLink this}}}
+          </li>
+        {{/each}}
+      </ul>
+    {{/if}}
+  </div>
 </div>

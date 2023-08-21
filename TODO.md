@@ -22,5 +22,6 @@
   - [x] Replace Sequelize queries with Prisma queries
   - [x] Remove Sequelize import, model definitions, env variables
   - [x] Update views to use new property names
-- [ ] Make Posts list in `/blog` show active post
-- [ ] Confirm post deletion
+- [x] Confirm post deletion
+- [x] Make Posts list in `/blog` show active post
+- [ ] Rework `app.js` catch blocks

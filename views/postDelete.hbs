@@ -1,0 +1,24 @@
+<div class="prose mx-auto">
+	<a href="/posts"><button class="btn btn-neutral mb-4">Back</button></a>
+	<h1>Delete Post</h1>
+	{{#if post.imageUrl}}
+		<img src="{{post.imageUrl}}" alt="Featured Image">
+	{{/if}}
+	<form action="/posts/delete/{{post.id}}" method="post">
+		<div class="form-control">
+			<label for="title" class="label">
+				<span class="label-text">Title</span>
+			</label>
+			<input type="text" id="title" name="title" class="input input-bordered w-full" value="{{post.title}}"
+				disabled />
+		</div>
+		<div class="form-control">
+			<label for="body" class="label">
+				<span class="label-text">Body</span>
+			</label>
+			<textarea name="body" id="body" rows="6" class="textarea textarea-bordered w-full"
+				disabled>{{post.body}}</textarea>
+		</div>
+		<button type="submit" class="btn btn-error mt-4">Delete</button>
+	</form>
+</div>
