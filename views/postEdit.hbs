@@ -1,11 +1,11 @@
 <div class="prose mx-auto">
   <a href="/posts"><button class="btn mb-4">Back</button></a>
-  <h1>Update Post</h1>
-  {{#if post.featureImage}}
-    <img src="{{post.featureImage}}" alt="Featured Image">
+  <h1>Edit Post</h1>
+  {{#if post.imageUrl}}
+    <img src="{{post.imageUrl}}" alt="Featured Image">
   {{/if}}
   <form action="/posts/edit/{{post.id}}" method="post" enctype="multipart/form-data">
-    {{#if post.featureImage}}
+    {{#if post.imageUrl}}
       <div class="form-control">
         <label class="label cursor-pointer">
           <span class="label-text">Remove Image</span>
@@ -14,9 +14,9 @@
       </div>
     {{/if}}
     <div class="form-control">
-      <label for="featureImage" class="label">
+      <label for="featuredImage" class="label">
         <span class="label-text mr-4">Image</span>
-        <input type="file" name="featureImage" id="featureImage" class="file-input" />
+        <input type="file" name="featuredImage" id="featuredImage" class="file-input" />
       </label>
     </div>
     <div class="form-control">
@@ -36,21 +36,22 @@
     <div class="flex items-center">
       <div class="basis-1/2">
         {{#if categories}}
-        <div class="form-control">
-          <label for="category" class="label"><span class="label-text">Category</span></label>
-          <select name="category" id="category" class="select">
-            {{#each categories}}
-              <option value="{{id}}">{{category}}</option>
-            {{/each}}
-          </select>
-        </div>
+          <div class="form-control">
+            <label for="category" class="label"><span class="label-text">Category</span>
+              <select name="categoryId" id="category" class="select select-sm ml-2">
+                {{#each categories}}
+                  <option value="{{id}}">{{name}}</option>
+                {{/each}}
+              </select>
+            </label>
+          </div>
         {{else}}
-          <div>No Categories</div>
+          <span>No Categories available</span>
         {{/if}}
       </div>
       <div class="form-control basis-1/2">
         <label for="published" class="label"><span class="label-text">Published</span>
-        <input type="checkbox" role="switch" name="published" id="published" class="checkbox" />
+          <input type="checkbox" role="switch" name="published" id="published" class="checkbox" />
         </label>
       </div>
     </div>

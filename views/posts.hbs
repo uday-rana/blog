@@ -1,4 +1,4 @@
-<div class="mx-auto prose">
+<div class="mx-auto prose sm:min-w-max">
   <h1>Posts</h1>
     {{#if error}}
       <div class="alert alert-error mb-4">
@@ -24,8 +24,8 @@
             <td><a href="/blog/{{id}}">{{title}}</a></td>
             <td>{{#formatDate postDate}}{{/formatDate}}</td>
             <td><a
-                href="/posts?category={{category}}"
-              >{{category}}</a></td>
+                href="/posts?category={{categoryId}}"
+              >{{category.name}}</a></td>
             <td>{{published}}</td>
             <td><a href="/posts/edit/{{id}}"><button class="btn btn-info">Edit</button></a></td>
             <td><a href="/posts/delete/{{id}}"><button class="btn btn-error">Delete</button></a></td>

@@ -5,15 +5,22 @@
 - [x] Replace lets with consts wherever possible
 - [x] Implement CI workflow for linting/testing
 - [x] Retreive login history from database instead of cookie
-- [x] Bugfix: ![Alt text](image.png)
 - [x] Bugfix: Allows creation of duplicate usernames
-- [x] Replace bootstrap with tailwind/daisyui
-  - [x] Set up tailwind
-  - [x] Set up daisyui
-  - [x] Remove bootstrap CDN link and classes (Use this regex to search & replace classes: `/class="[^"]*"/`)
+- [x] Replace Bootstrap with TailwindCSS/DaisyUI
+  - [x] Set up TailwindCSS
+  - [x] Set up DaisyUI
+  - [x] Remove Bootstrap CDN link and classes (Use this regex to search & replace classes: `/class="[^"]*"/`)
   - [x] Add `<link>` to `/css/main.css` instead of `nottailwind.css` in main.hbs
   - [x] Add component classes to .hbs files
 - [x] Add edit post functionality
 - [x] Show 5 blog posts at a time on /blog route with pagination to go back/forward
+- [x] Split blogService into two objects: posts and categories, each containing the relevant methods
+  - [x] Update method names to remove redundant "post" and "category" from name
+  - [x] Update `app.js` to use new methods
+- [x] Replace Sequelize with Prisma
+  - [x] Set up Prisma
+  - [x] Replace Sequelize queries with Prisma queries
+  - [x] Remove Sequelize import, model definitions, env variables
+  - [x] Update views to use new property names
 - [ ] Make Posts list in `/blog` show active post
 - [ ] Confirm post deletion

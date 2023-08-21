@@ -1,16 +1,16 @@
 <div class="prose mx-auto">
   <a href="/categories"><button class="btn mb-4">Back</button></a>
-  <h1>Update Category</h1>
+  <h1>Edit Category</h1>
   <form action="/categories/edit/{{data.id}}" method="post">
     <div class="form-control">
-      <label for="category" class="label"><span class="label-text">Category</span></label>
+      <label for="name" class="label"><span class="label-text">Category</span></label>
       <input
         type="text"
-        name="category"
-        id="category"
+        name="name"
+        id="name"
         class="input input-bordered w-full"
         placeholder="Category"
-        value="{{data.category}}"
+        value="{{data.name}}"
         autofocus
       />
     </div>
