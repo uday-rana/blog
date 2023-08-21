@@ -245,7 +245,7 @@ app.post(
       req.body.imageUrl = "";
       if (req.file) {
         const image = await streamUpload(req.file.buffer);
-        req.body.imageUrl = image.url;
+        req.body.imageUrl = image.secure_url;
       }
       req.body.categoryId = parseInt(req.body.categoryId);
       req.body.postDate = new Date();
