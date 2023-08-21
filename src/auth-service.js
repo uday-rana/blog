@@ -57,7 +57,7 @@ const authService = {
       throw new Error(`Incorrect password for user "${userData.userName}".`);
     }
     if (user.loginHistory.length > 49) {
-      user.loginHistory = user.loginHistory.slice(0,50);
+      user.loginHistory = user.loginHistory.slice(0, 50);
     }
     user.loginHistory.push({
       dateTime: new Date().toString(),
