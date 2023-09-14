@@ -6,8 +6,8 @@ This website allows users to register and log-in in order to create posts or pos
 
 - [Node.js](https://nodejs.org/en/)
 - [Express.js](https://expressjs.com/)
-- [PostgreSQL](https://https//www.postgresql.org/)
-- [MongoDB](https://www.mongodb.com/)
+- [Prisma](https://www.prisma.io/)
 - [Handlebars](https://handlebarsjs.com/)
-- [Bootstrap](https://getbootstrap.com/)
-- [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS)
+- [Tailwind](https://tailwindcss.com/)
+- [DaisyUI](https://daisyui.com/)
+- [Mongoose](https://mongoosejs.com/)
