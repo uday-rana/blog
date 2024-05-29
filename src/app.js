@@ -63,10 +63,9 @@ const hbs = ExpressHandlebars.create({
 
 app.engine(`.hbs`, hbs.engine);
 app.set(`view engine`, `.hbs`);
-app.set("views", __dirname + "/views");
 
 // Configure app-level middleware
-app.use(express.static(__dirname + "/public"));
+app.use(express.static(`/public`));
 app.use(express.urlencoded({ extended: true }));
 app.use(
   client_sessions({
@@ -74,7 +73,7 @@ app.use(
     secret: process.env.COOKIE_SECRET,
     duration: 60 * 60 * 1000,
     activeDuration: 15 * 60 * 1000,
-  }),
+  })
 );
 app.use((req, res, next) => {
   res.locals.session = req.session;
@@ -122,13 +121,13 @@ app.get(`/blog`, async (req, res) => {
     viewData.allPosts = [];
     if (req.query.category) {
       viewData.allPosts = await blogService.posts.getPublishedByCategoryId(
-        parseInt(req.query.category),
+        parseInt(req.query.category)
       );
     } else {
       viewData.allPosts = await blogService.posts.getPublished();
     }
     viewData.allPosts.sort(
-      (a, b) => new Date(b.postDate) - new Date(a.postDate),
+      (a, b) => new Date(b.postDate) - new Date(a.postDate)
     );
     // Add pagination data to viewData
     viewData.currPage = parseInt(req.query.page) || 1;
@@ -139,7 +138,7 @@ app.get(`/blog`, async (req, res) => {
     viewData.nextPage = viewData.currPage + 1;
     viewData.currPosts = viewData.allPosts.slice(
       viewData.currPage * 5 - 5,
-      viewData.currPage * 5,
+      viewData.currPage * 5
     );
   } catch (err) {
     viewData.noPostsMessage = `No results`;
@@ -164,13 +163,13 @@ app.get(`/blog/:id`, async (req, res) => {
     viewData.allPosts = [];
     if (req.query.category) {
       viewData.allPosts = await blogService.posts.getPublishedByCategoryId(
-        parseInt(req.query.category),
+        parseInt(req.query.category)
       );
     } else {
       viewData.allPosts = await blogService.posts.getPublished();
     }
     viewData.allPosts.sort(
-      (a, b) => new Date(b.postDate) - new Date(a.postDate),
+      (a, b) => new Date(b.postDate) - new Date(a.postDate)
     );
   } catch (err) {
     // Do nothing
@@ -205,7 +204,7 @@ app.get(`/posts`, ensureLogin, async (req, res) => {
     let posts = [];
     if (req.query.category) {
       posts = await blogService.posts.getByCategoryId(
-        parseInt(req.query.category),
+        parseInt(req.query.category)
       );
     } else if (req.query.minDate) {
       posts = await blogService.posts.getByMinDate(req.query.minDate);
@@ -261,7 +260,7 @@ app.post(
     } catch (error) {
       res.redirect(`/posts?error=1`);
     }
-  },
+  }
 );
 
 app.get(`/posts/edit/:id`, ensureLogin, async (req, res) => {
@@ -297,7 +296,7 @@ app.post(
     } catch (error) {
       res.redirect(`/posts?error=1`);
     }
-  },
+  }
 );
 
 app.get(`/posts/delete/:id`, ensureLogin, async (req, res) => {
@@ -337,7 +336,7 @@ app.get(`/categories`, ensureLogin, async (req, res) => {
 });
 
 app.get(`/categories/add`, ensureLogin, (req, res) =>
-  res.render(`categoryAdd`),
+  res.render(`categoryAdd`)
 );
 
 app.post(`/categories/add`, ensureLogin, async (req, res) => {
@@ -357,7 +356,7 @@ app.post(`/categories/add`, ensureLogin, async (req, res) => {
 app.get(`/categories/edit/:id`, ensureLogin, async (req, res) => {
   try {
     const category = await blogService.categories.getById(
-      parseInt(req.params.id),
+      parseInt(req.params.id)
     );
     res.render(`categoryEdit`, { category: category });
   } catch (error) {
@@ -382,7 +381,7 @@ app.post(`/categories/edit/:id`, ensureLogin, async (req, res) => {
 app.get(`/categories/delete/:id`, ensureLogin, async (req, res) => {
   try {
     const category = await blogService.categories.getById(
-      parseInt(req.params.id),
+      parseInt(req.params.id)
     );
     res.render(`categoryDelete`, { category: category });
   } catch (error) {
