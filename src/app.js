@@ -63,9 +63,10 @@ const hbs = ExpressHandlebars.create({
 
 app.engine(`.hbs`, hbs.engine);
 app.set(`view engine`, `.hbs`);
+app.set('views', __dirname + '/views');
 
 // Configure app-level middleware
-app.use(express.static(`public`));
+app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(
   client_sessions({
