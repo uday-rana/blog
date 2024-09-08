@@ -441,13 +441,13 @@ app.get(`/loginHistory`, ensureLogin, async (req, res) => {
 
 app.use((req, res) => res.status(404).render(`404`));
 
-let isAuthInitialized = false; 
+let isAuthInitialized = false;
 
 async function run() {
   try {
     if (!isAuthInitialized) {
-    await authService.initialize();
-    isAuthInitialized = true;
+      await authService.initialize();
+      isAuthInitialized = true;
     }
   } catch (error) {
     console.error(error);
