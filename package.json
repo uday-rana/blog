@@ -2,16 +2,16 @@
   "name": "blog",
   "version": "1.0.0",
   "description": "",
-  "main": "api/index.js",
+  "main": "src/index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node api/index.js",
-    "watch": "nodemon api/index.js",
+    "start": "node src/index.js",
+    "watch": "nodemon src/index.js",
     "pretty": "prettier --write \"./**/*.{js,jsx,ts,tsx,json}\"",
-    "lint": "eslint api/",
-    "tw:watch": "tailwindcss -i api/tailwind.css -o public/css/main.css --minify --watch",
-    "tw:build": "tailwindcss -i api/tailwind.css -o public/css/main.css --minify"
+    "lint": "eslint src/",
+    "tw:watch": "tailwindcss -i src/tailwind.css -o public/css/main.css --minify --watch",
+    "tw:build": "tailwindcss -i src/tailwind.css -o public/css/main.css --minify"
   },
   "author": "Uday Rana",
   "license": "ISC",

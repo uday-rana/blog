@@ -65,7 +65,7 @@ app.engine(`.hbs`, hbs.engine);
 app.set(`view engine`, `.hbs`);
 
 // Configure app-level middleware
-app.use(express.static(`${import.meta.dirname}/public`));
+app.use(express.static(`public`));
 app.use(express.urlencoded({ extended: true }));
 app.use(
   client_sessions({
@@ -440,21 +440,5 @@ app.get(`/loginHistory`, ensureLogin, async (req, res) => {
 });
 
 app.use((req, res) => res.status(404).render(`404`));
-
-let isAuthInitialized = false;
-
-async function run() {
-  try {
-    if (!isAuthInitialized) {
-      await authService.initialize();
-      isAuthInitialized = true;
-    }
-  } catch (error) {
-    console.error(error);
-    process.exit(1);
-  }
-}
-
-run();
 
 export default app;
